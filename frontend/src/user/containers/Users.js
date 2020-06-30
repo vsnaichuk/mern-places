@@ -6,15 +6,13 @@ const Users = () => {
     {
       id: 1,
       name: 'Vova',
-      image:
-        'https://webstockreview.net/images/friendly-clipart-random-person-3.png',
-      placeCount: 2,
+      image: 'https://randomuser.me/api/portraits/men/1.jpg',
+      placeCount: 12,
     },
     {
       id: 2,
       name: 'Ivan',
-      image:
-        'https://webstockreview.net/images/friendly-clipart-random-person-6.png',
+      image: 'https://randomuser.me/api/portraits/men/2.jpg',
       placeCount: 4,
     },
   ];

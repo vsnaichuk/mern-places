@@ -1,4 +1,5 @@
 import React from 'react';
+import s from './UsersList.module.scss';
 import UserItem from './UserItem';
 
 const UsersList = ({ items }) => {
@@ -7,7 +8,7 @@ const UsersList = ({ items }) => {
   }
 
   return (
-    <ul>
+    <ul className={s.usersList}>
       {items.map((user) => {
         return <UserItem key={user.id} {...user} />;
       })}
