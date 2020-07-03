@@ -23,6 +23,10 @@ body {
   flex-direction: column;
 }
 
+main {
+  margin-top: 80px;
+}
+
 h1,
 h2,
 h3,
@@ -47,6 +51,7 @@ img {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 button{

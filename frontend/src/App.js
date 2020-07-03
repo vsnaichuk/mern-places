@@ -5,25 +5,30 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-
 import { routes } from './routes';
+
 import Users from './user/containers/Users';
 import NewPlace from './places/containers/NewPlace';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 
 const App = (props) => {
   return (
     <Router>
-      <Switch>
-        <Route path={routes.HOME} exact>
-          <Users />
-        </Route>
+      <MainNavigation />
 
-        <Route path={routes.NEW_PLACE}>
-          <NewPlace />
-        </Route>
+      <main>
+        <Switch>
+          <Route path={routes.HOME} exact>
+            <Users />
+          </Route>
 
-        <Redirect to="/" />
-      </Switch>
+          <Route path={routes.NEW_PLACE}>
+            <NewPlace />
+          </Route>
+
+          <Redirect to={routes.HOME} />
+        </Switch>
+      </main>
     </Router>
   );
 };

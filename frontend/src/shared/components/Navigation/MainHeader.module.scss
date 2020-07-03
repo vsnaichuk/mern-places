@@ -1,0 +1,21 @@
+.mainHeader {
+  z-index: 5;
+  width: 100%;
+  min-height: 60px;
+  max-height: 80px;
+  height: 8%;
+  padding: 0 3%;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #232b41;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 768px) {
+  .mainHeader {
+    justify-content: space-between;
+  }
+}

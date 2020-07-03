@@ -1,0 +1,38 @@
+.navigationBtn {
+  width: 68px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  cursor: pointer;
+
+  span {
+    display: block;
+    width: 55px;
+    height: 3px;
+    background: white;
+  }
+}
+
+.navigationHome {
+  display: flex;
+  align-items: center;
+}
+
+.navigationTitle {
+  margin: 0 9px;
+  font-size: 36px;
+  color: #457bea;
+  font-weight: 700;
+  letter-spacing: 0.07px;
+  text-shadow: 3px 3px #1a4369;
+}
+
+@media (max-width: 768px) {
+  .navigationBtn {
+    display: flex;
+    margin-right: 20px;
+  }
+}
