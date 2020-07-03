@@ -19,20 +19,28 @@
 .navigationHome {
   display: flex;
   align-items: center;
+
+  .title {
+    margin: 0 9px;
+    font-size: 36px;
+    color: #457bea;
+    font-weight: 700;
+    letter-spacing: 0.07px;
+    text-shadow: 3px 3px #1a4369;
+  }
 }
 
-.navigationTitle {
-  margin: 0 9px;
-  font-size: 36px;
-  color: #457bea;
-  font-weight: 700;
-  letter-spacing: 0.07px;
-  text-shadow: 3px 3px #1a4369;
+.navigationDrawerNav {
+  height: 100%;
 }
 
 @media (max-width: 768px) {
   .navigationBtn {
     display: flex;
     margin-right: 20px;
+  }
+
+  .navigationHeaderNav {
+    display: none;
   }
 }
