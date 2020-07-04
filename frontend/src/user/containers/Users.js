@@ -2,7 +2,7 @@ import React from 'react';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
-  const USERS = [
+  const DUMMY_USERS = [
     {
       id: 1,
       name: 'Vova',
@@ -17,7 +17,7 @@ const Users = () => {
     },
   ];
 
-  return <UsersList items={USERS} />;
+  return <UsersList items={DUMMY_USERS} />;
 };
 
 export default Users;
