@@ -25,6 +25,7 @@ body {
 
 main {
   margin-top: 80px;
+  justify-content: center;
 }
 
 h1,
@@ -52,23 +53,6 @@ img {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-button{
-  transition: all .3s ease;
-
-  &:active {
-    transform:scale(0.92);
-  }
-  &:focus {
-    outline: #349A89 5px;
-  }
-  &:hover{
-    text-shadow: 0 0 1.5px rgba(255, 255, 255, 1);
-    box-shadow: 0 5px 40px -10px rgba(59, 59, 59, 0.57);
-    transition: all .4s ease 0s;
-    letter-spacing: 1.3px;
-  }
 }
 
 .slide-in-left-enter {

@@ -12,7 +12,7 @@ const NavLinks = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to={routes.PLACES} activeClassName={s.active}>
+        <NavLink to={routes.USER_PLACES} activeClassName={s.active}>
           MY PLACES
         </NavLink>
       </li>

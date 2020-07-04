@@ -23,7 +23,7 @@ const App = (props) => {
             <Users />
           </Route>
 
-          <Route path={routes.PLACES} exact>
+          <Route path={routes.USER_PLACES} exact>
             <UserPlaces />
           </Route>
 

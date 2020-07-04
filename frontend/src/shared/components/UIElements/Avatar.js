@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import s from './Avatar.module.scss';
 
 const Avatar = ({
@@ -10,7 +11,7 @@ const Avatar = ({
   ...props
 }) => {
   return (
-    <div className={`${s.avatar} ${className}`} style={style}>
+    <div className={cx(s.avatar, className)} style={style}>
       <img
         src={image}
         alt={alt}

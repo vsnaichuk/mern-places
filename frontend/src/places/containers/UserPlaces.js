@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PlacesList from '../components/PlacesList';
 
 const DUMMY_PLACES = [
@@ -30,10 +31,30 @@ const DUMMY_PLACES = [
     },
     creator: 'u2',
   },
+  {
+    id: 3,
+    title: 'Maidan Nezalezhnosti',
+    description:
+      "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
+    imageUrl:
+      'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
+    address: 'Kyiv 02000',
+    coordinates: {
+      lat: 50.450555,
+      lng: 30.5210808,
+    },
+    creator: 'u1',
+  },
 ];
 
 const UserPlaces = () => {
-  return <PlacesList items={DUMMY_PLACES} />;
+  const { userId } = useParams();
+
+  const loadedPlaces = DUMMY_PLACES.filter(
+    (place) => userId === place.creator,
+  );
+
+  return <PlacesList items={loadedPlaces} />;
 };
 
 export default UserPlaces;

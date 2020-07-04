@@ -1,6 +1,7 @@
 export const routes = {
   HOME: '/',
   NEW_PLACE: '/places/new',
-  PLACES: '/:id/places',
+  USER_PLACES: '/:userId/places',
+  EDIT_PLACE: '/places/:placeId',
   AUTH: '/auth',
 };

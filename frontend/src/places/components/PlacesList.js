@@ -17,11 +17,12 @@ const PlacesList = ({ items }) => {
   }
 
   return (
-    <ul className={`${s.placesList}`}>
+    <ul className={s.placesList}>
       {items.map((place) => {
         return (
           <PlaceItem
             key={place.id}
+            id={place.id}
             title={place.title}
             descr={place.description}
             image={place.imageUrl}

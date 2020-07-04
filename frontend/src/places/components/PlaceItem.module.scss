@@ -1,8 +1,9 @@
 .placeItem {
   display: flex;
+  flex: 1;
   margin: 10px;
   width: 90%;
-  max-width: 500px;
+  justify-content: center;
 }
 
 .placeContent {
@@ -15,7 +16,7 @@
 
 .placeImage {
   width: 100%;
-  height: 350px;
+  height: 500px;
 
   img {
     width: 100%;
@@ -67,6 +68,7 @@
 
 @media (max-width: 1200px) {
   .placeItem {
+    flex: none;
     max-width: none;
   }
 }

@@ -1,8 +1,12 @@
 import React from 'react';
 import s from './PlaceItem.module.scss';
 import Card from '../../shared/components/UIElements/Card';
+import Button from '../../shared/components/FormElements/Button';
+import { generatePath } from 'react-router-dom';
+import { routes } from '../../routes';
 
 const PlaceItem = ({
+  id,
   title,
   descr,
   image,
@@ -24,9 +28,13 @@ const PlaceItem = ({
         </div>
 
         <div className={s.placeActions}>
-          <button>VIEW ON MAP</button>
-          <button>EDIT</button>
-          <button>DELETE</button>
+          <Button inverse>VIEW ON MAP</Button>
+          <Button
+            to={generatePath(routes.EDIT_PLACE, { placeId: id })}
+          >
+            EDIT
+          </Button>
+          <Button danger>DELETE</Button>
         </div>
       </Card>
     </li>
