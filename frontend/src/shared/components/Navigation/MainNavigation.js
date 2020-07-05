@@ -6,7 +6,6 @@ import MainHeader from './MainHeader';
 import NavLinks from './NavLinks';
 import Logo from '../UIElements/Logo';
 import SideDrawer from './SideDrawer';
-import Backdrop from '../UIElements/Backdrop';
 
 const MainNavigation = (props) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,9 +20,7 @@ const MainNavigation = (props) => {
 
   return (
     <>
-      {isDrawerOpen && <Backdrop onClick={closeDrawerHandler} />}
-
-      <SideDrawer show={isDrawerOpen} onClick={closeDrawerHandler}>
+      <SideDrawer show={isDrawerOpen} onClose={closeDrawerHandler}>
         <nav className={s.navigationDrawerNav}>
           <NavLinks />
         </nav>

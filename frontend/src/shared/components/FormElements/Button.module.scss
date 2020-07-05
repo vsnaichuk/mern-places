@@ -2,7 +2,7 @@
   font: inherit;
   padding: 5px 15px;
   border: 1px solid #4278ed;
-  border-radius: 4px;
+  border-radius: 3px;
   background: #4278ed;
   color: white;
   cursor: pointer;
@@ -33,6 +33,7 @@
 
 .buttonInverse {
   background: transparent;
+  border-color: #4278ed;
   color: #83aaff;
 
   &:hover,
@@ -53,9 +54,11 @@
   }
 }
 .small {
+  padding: 2px 9px;
   font-size: 11px;
 }
 
 .big {
-  font-size: 15px;
+  padding: 7px 21px;
+  font-size: 18px;
 }

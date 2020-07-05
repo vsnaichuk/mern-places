@@ -65,6 +65,20 @@
   }
 }
 
+.placeModalContent {
+  padding: 0;
+}
+
+.placeModalActions {
+  text-align: right;
+}
+
+.mapContainer {
+  min-height: 150px;
+  width: 100%;
+  color: #000;
+}
+
 
 @media (max-width: 1200px) {
   .placeItem {

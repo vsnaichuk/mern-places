@@ -1,4 +1,5 @@
 @import "~normalize.css";
+@import "./transitions.scss";
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -55,30 +56,11 @@ a {
   color: inherit;
 }
 
-.slide-in-left-enter {
-  transform: translateX(-100%);
-}
-
-.slide-in-left-enter-active {
-  transform: translateX(0);
-  opacity: 1;
-  transition: all 200ms;
-}
-
-.slide-in-left-exit {
-  transform: translateX(0%);
-  opacity: 1;
-}
-
-.slide-in-left-exit-active {
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: all 200ms;
-}
-
 .center {
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+
