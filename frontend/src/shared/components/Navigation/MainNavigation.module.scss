@@ -1,3 +1,5 @@
+@import "src/shared/styles/variables";
+
 .navigationBtn {
   width: 68px;
   height: 40px;
@@ -12,7 +14,7 @@
     display: block;
     width: 55px;
     height: 3px;
-    background: white;
+    background: $white;
   }
 }
 
@@ -23,10 +25,10 @@
   .title {
     margin: 0 9px;
     font-size: 36px;
-    color: #457bea;
+    color: $HomeTextTitle;
     font-weight: 700;
     letter-spacing: 0.07px;
-    text-shadow: 3px 3px #1a4369;
+    text-shadow: $HomeTextShadow;
   }
 }
 

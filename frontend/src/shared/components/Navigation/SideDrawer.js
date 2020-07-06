@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import s from './SideDrawer.module.scss';
 import Backdrop from '../UIElements/Backdrop';
+import s from './SideDrawer.module.scss';
 
 const SideDrawer = ({ children, show, onClose }) => {
   const content = (

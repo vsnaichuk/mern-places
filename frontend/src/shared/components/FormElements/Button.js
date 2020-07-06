@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
-
 import s from './Button.module.scss';
 
 const Button = ({

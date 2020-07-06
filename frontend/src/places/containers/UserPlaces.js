@@ -11,7 +11,7 @@ const DUMMY_PLACES = [
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/MCA_Sydney.jpg/800px-MCA_Sydney.jpg',
     address: '140 George St, The Rocks NSW 2000, Australia',
-    coordinates: {
+    location: {
       lat: -33.8599358,
       lng: 151.2090295,
     },
@@ -25,7 +25,7 @@ const DUMMY_PLACES = [
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
     address: 'Kyiv 02000',
-    coordinates: {
+    location: {
       lat: 50.450555,
       lng: 30.5210808,
     },
@@ -39,7 +39,7 @@ const DUMMY_PLACES = [
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
     address: 'Kyiv 02000',
-    coordinates: {
+    location: {
       lat: 50.450555,
       lng: 30.5210808,
     },

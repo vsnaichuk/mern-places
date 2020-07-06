@@ -1,8 +1,10 @@
+@import "src/shared/styles/variables";
+
 .card {
   margin: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 6px;
   padding: 2%;
   overflow: hidden;
-  background: #232b41;
+  background: $mainDark;
 }

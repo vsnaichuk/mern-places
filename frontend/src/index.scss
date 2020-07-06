@@ -1,5 +1,6 @@
 @import "~normalize.css";
-@import "./transitions.scss";
+@import "shared/styles/transitions";
+@import "src/shared/styles/variables";
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -11,9 +12,9 @@ html {
 }
 
 body {
-  background: #181729;
+  background: $mainDarker;
   margin: 0;
-  color: #fff;
+  color: $white;
   font-weight: 600;
 }
 
@@ -27,6 +28,10 @@ body {
 main {
   margin-top: 80px;
   justify-content: center;
+}
+
+.modalContent {
+  padding: 10px 5px;
 }
 
 h1,

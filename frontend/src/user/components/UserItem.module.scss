@@ -1,3 +1,5 @@
+@import "src/shared/styles/variables";
+
 .userImage {
   margin-right: 3%;
   max-width: 120px;
@@ -18,12 +20,12 @@
     height: 100%;
     text-decoration: none;
     padding: 2%;
-    color: white;
+    color: $white;
     transition: 0.2s all;
 
     &:hover,
     &:active {
-      background: #3d475e45;
+      background: $userCardHover;
       border-radius: 6px;
     }
   }

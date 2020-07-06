@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
-import s from './PlaceItem.module.scss';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
+import Map from '../../shared/components/UIElements/Map';
+import s from './PlaceItem.module.scss';
 
 const PlaceItem = ({
   id,
@@ -12,7 +13,7 @@ const PlaceItem = ({
   descr,
   image,
   address,
-  location,
+  coordinates,
   creatorId,
 }) => {
   const [showMap, setShowMap] = useState(false);
@@ -36,7 +37,7 @@ const PlaceItem = ({
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className={s.mapContainer}>
-          <h2>The Map</h2>
+          <Map center={coordinates} zoom={16} />
         </div>
       </Modal>
 

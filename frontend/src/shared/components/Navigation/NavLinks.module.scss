@@ -1,3 +1,5 @@
+@import "src/shared/styles/variables";
+
 .navLinks {
   list-style: none;
   margin: 0;
@@ -26,7 +28,7 @@
     &:hover,
     &:active,
     &.active {
-      border-bottom: 2px solid #4278ed;
+      border-bottom: $menuItemBorder
     }
   }
 }
@@ -40,7 +42,7 @@
     }
 
     a {
-      color: white;
+      color: $white;
       text-decoration: none;
     }
   }

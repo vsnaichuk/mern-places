@@ -1,8 +1,8 @@
 import React from 'react';
-import s from './PlacesList.module.scss';
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
 import Button from '../../shared/components/FormElements/Button';
+import s from './PlacesList.module.scss';
 
 const PlacesList = ({ items }) => {
   if (items.length === 0) {
@@ -30,7 +30,7 @@ const PlacesList = ({ items }) => {
             descr={place.description}
             image={place.imageUrl}
             address={place.address}
-            location={place.coordinates}
+            coordinates={place.location}
             creatorId={place.creator}
           />
         );
