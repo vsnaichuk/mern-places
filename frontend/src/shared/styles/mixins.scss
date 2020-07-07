@@ -1,11 +1,11 @@
-@mixin scrollbars($size, $foregroundColor, $backgroundColor: mix($foregroundColor, white,  50%)) {
+@mixin scrollbars($size, $borderRadius, $foregroundColor, $backgroundColor: mix($foregroundColor, white,  50%)) {
   &::-webkit-scrollbar {
     width:  $size;
     height: $size;
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: $borderRadius;
     background: $foregroundColor;
   }
 

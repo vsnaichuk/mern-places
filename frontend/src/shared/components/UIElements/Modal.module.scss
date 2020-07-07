@@ -4,12 +4,16 @@
 .modal {
   z-index: 100;
   position: fixed;
-  top: 22vh;
+  top: 20vh;
   left: 10%;
   width: 80%;
+  height: auto;
+  max-height: 81vh;
   background: $white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 8px;
+  overflow-y: auto;
+  @include scrollbars(20px, 10px, #8d68ce, #1b0245);
 }
 
 .modalHeader {
@@ -38,12 +42,21 @@
   }
 }
 
-@media (max-height: 360px) {
-  .modal {
-    top: 10vh;
-    height: 90vh;
-    overflow-y: auto;
-    @include scrollbars(20px, #8d68ce, #1b0245);
+@media (max-height: 768px) {
+  .modalHeader {
+    padding: 10px 6px;
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .modalFooter {
+    padding: 10px 6px;
+
+    h2 {
+      font-size: 14px;
+    }
   }
 }
 
