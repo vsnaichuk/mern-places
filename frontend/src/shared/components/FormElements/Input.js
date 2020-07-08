@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { validate } from '../../util/validators';
 import s from './Input.module.scss';
 
@@ -30,6 +30,7 @@ const Input = ({
   rows,
   errorText,
   validators,
+  onInput,
   ...inputProps
 }) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
@@ -37,6 +38,12 @@ const Input = ({
     isTouched: false,
     isValid: false,
   });
+
+  const { value, isValid } = inputState;
+
+  useEffect(() => {
+    onInput(id, value, isValid);
+  }, [id, value, isValid]);
 
   const changeHandler = (e) => {
     dispatch({
