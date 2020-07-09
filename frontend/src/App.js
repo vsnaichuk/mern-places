@@ -5,12 +5,13 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import NewPlace from './places/containers/NewPlace';
+import UpdatePlace from './places/containers/UpdatePlace';
+import UserPlaces from './places/containers/UserPlaces';
 import { routes } from './routes';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 
 import Users from './user/containers/Users';
-import NewPlace from './places/containers/NewPlace';
-import MainNavigation from './shared/components/Navigation/MainNavigation';
-import UserPlaces from './places/containers/UserPlaces';
 
 const App = (props) => {
   return (
@@ -29,6 +30,10 @@ const App = (props) => {
 
           <Route path={routes.NEW_PLACE}>
             <NewPlace />
+          </Route>
+
+          <Route path={routes.EDIT_PLACE}>
+            <UpdatePlace />
           </Route>
 
           <Redirect to={routes.HOME} />
