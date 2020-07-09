@@ -5,7 +5,7 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from '../../shared/util/validators';
-import s from './NewPlace.module.scss';
+import s from './PlaceForm.module.scss';
 
 const formReducer = (state, action) => {
   switch (action.type) {

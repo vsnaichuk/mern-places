@@ -6,7 +6,7 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from '../../shared/util/validators';
-import s from './UpdatePlace.module.scss';
+import s from './PlaceForm.module.scss';
 
 const DUMMY_PLACES = [
   {
@@ -65,7 +65,7 @@ const UpdatePlace = (props) => {
   }
 
   return (
-    <form className={s.updatePlaceForm} onSubmit={() => {}}>
+    <form className={s.placeForm} onSubmit={() => {}}>
       <Input
         id="title"
         el="input"
@@ -86,17 +86,6 @@ const UpdatePlace = (props) => {
         errorText="Please enter a valid description (at least 5 characters)."
         onInput={() => {}}
         value={identifiedPlace.description}
-        valid={true}
-      />
-
-      <Input
-        id="address"
-        el="input"
-        label="Address"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid address"
-        onInput={() => {}}
-        value={identifiedPlace.address}
         valid={true}
       />
 
