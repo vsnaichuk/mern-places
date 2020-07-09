@@ -59,8 +59,14 @@ const NewPlace = () => {
     dispatch({ type: 'INPUT_CHANGE', inputId: id, value, isValid });
   }, []);
 
+  const submitPlaceHandler = (e) => {
+    e.preventDefault();
+
+    console.log(formState.inputs); // TODO: send this to backend later
+  };
+
   return (
-    <form className={s.placeForm}>
+    <form className={s.placeForm} onSubmit={submitPlaceHandler}>
       <Input
         id="title"
         el="input"
@@ -79,6 +85,16 @@ const NewPlace = () => {
         placeholder="Type here description"
         validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (at least 5 characters)."
+        onInput={inputHandler}
+      />
+
+      <Input
+        id="address"
+        el="input"
+        label="Address"
+        placeholder="Type here address"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid address"
         onInput={inputHandler}
       />
 

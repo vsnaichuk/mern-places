@@ -1,5 +1,5 @@
 .formControl {
-  margin: 8px 0;
+  margin: 15px 0;
 
   label,
   input,
@@ -9,6 +9,7 @@
 
   label {
     font-weight: 700;
+    font-size: 1.2rem;
     margin-bottom: 8px;
   }
 
@@ -33,7 +34,7 @@
 
 .formControlInvalid {
   label, p {
-    color: red;
+    color: #e70000;
   }
 
   input,
