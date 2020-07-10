@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
@@ -56,31 +56,55 @@ const DUMMY_PLACES = [
 
 const UpdatePlace = (props) => {
   const { placeId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false,
+      },
+
+      description: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false,
+  );
 
   const identifiedPlace = DUMMY_PLACES.find(
     (place) => place.id === +placeId,
   );
 
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: identifiedPlace.title,
-        isValid: true,
-      },
+  useEffect(() => {
+    setFormData(
+      {
+        title: {
+          value: identifiedPlace.title,
+          isValid: true,
+        },
 
-      description: {
-        value: identifiedPlace.description,
-        isValid: true,
+        description: {
+          value: identifiedPlace.description,
+          isValid: true,
+        },
       },
-    },
-    true,
-  );
+      true,
+    );
 
-  const { inputs } = formState;
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!identifiedPlace) {
     return <div className="center">Could not find place!</div>;
   }
+
+  const { inputs } = formState;
 
   return (
     <form className={s.placeForm} onSubmit={() => {}}>
