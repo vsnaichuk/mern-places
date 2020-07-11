@@ -1,6 +1,6 @@
 .button {
   font: inherit;
-  padding: 5px 15px;
+  padding: 0.5rem 1rem;
   border: 1px solid #4278ed;
   border-radius: 3px;
   background: #4278ed;
@@ -54,11 +54,19 @@
   }
 }
 .small {
-  padding: 2px 9px;
+  padding: 0.3rem 0.5rem;
   font-size: 11px;
 }
 
 .big {
-  padding: 7px 21px;
+  padding: 0.8rem 3.8rem;
   font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .big {
+    display: flex;
+    padding: 0.5rem 2rem;
+    margin: auto;
+  }
 }

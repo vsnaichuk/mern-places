@@ -69,7 +69,7 @@ const NewPlace = () => {
         onInput={inputHandler}
       />
 
-      <Button type="submit" disabled={!formState.isValid}>
+      <Button size="big" type="submit" disabled={!formState.isValid}>
         ADD PLACE
       </Button>
     </form>

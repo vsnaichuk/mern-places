@@ -141,7 +141,7 @@ const UpdatePlace = (props) => {
         initValid={inputs.description.isValid}
       />
 
-      <Button type="submit" disabled={true}>
+      <Button size="big" type="submit" disabled={true}>
         UPDATE PLACE
       </Button>
     </form>

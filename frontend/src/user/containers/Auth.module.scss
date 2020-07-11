@@ -1,28 +1,46 @@
 .auth {
   margin: 4% auto 0;
-  padding: 14px;
-  width: 80%;
+  padding: 4% 1%;
+  width: 55%;
   max-width: 1000px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 6px;
   background: #232b41;
 
   .authTitle {
+    font-size: 2rem;
     text-align: center;
     text-transform: uppercase;
   }
 }
 
 .switchBox {
-  text-align: center;
-  margin: 2% auto 0;
-  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin: 2rem auto 0;
+  width: 55%;
   max-width: 1000px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 6px;
   background: #232b41;
+  flex-wrap: wrap;
 
-  button {
-    margin: 0 0 0 10px;
+  h4 {
+    margin: 5px
   }
 }
+
+@media (max-width: 768px) {
+  .auth {
+    width: 90%;
+    padding: 4%;
+  }
+
+  .switchBox {
+    width: 90%;
+  }
+}
+
+
