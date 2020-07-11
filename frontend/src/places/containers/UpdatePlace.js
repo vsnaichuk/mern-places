@@ -117,6 +117,7 @@ const UpdatePlace = (props) => {
 
   return (
     <form className={s.placeForm} onSubmit={() => {}}>
+      {/*// TODO: Add submit handler*/}
       <Input
         id="title"
         el="input"

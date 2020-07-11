@@ -54,6 +54,7 @@ const NewPlace = () => {
         label="Description"
         placeholder="Type here description"
         errorText="Please enter a valid description (at least 5 characters)."
+        rows={10}
         validators={[VALIDATOR_MINLENGTH(5)]}
         onInput={inputHandler}
       />

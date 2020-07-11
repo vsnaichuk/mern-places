@@ -10,6 +10,7 @@ import UpdatePlace from './places/containers/UpdatePlace';
 import UserPlaces from './places/containers/UserPlaces';
 import { routes } from './routes';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
+import Auth from './user/containers/Auth';
 
 import Users from './user/containers/Users';
 
@@ -34,6 +35,10 @@ const App = (props) => {
 
           <Route path={routes.EDIT_PLACE}>
             <UpdatePlace />
+          </Route>
+
+          <Route path={routes.AUTH}>
+            <Auth />
           </Route>
 
           <Redirect to={routes.HOME} />
