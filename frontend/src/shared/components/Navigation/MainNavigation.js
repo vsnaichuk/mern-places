@@ -1,36 +1,29 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../routes';
-import MainHeader from './MainHeader';
-import NavLinks from './NavLinks';
 import Logo from '../UIElements/Logo';
-import SideDrawer from './SideDrawer';
+import MainHeader from './MainHeader';
 import s from './MainNavigation.module.scss';
+import NavLinks from './NavLinks';
+import SideDrawer from './SideDrawer';
 
 const MainNavigation = (props) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const openDrawerHandler = () => {
-    setIsDrawerOpen(true);
-  };
-
-  const closeDrawerHandler = () => {
-    setIsDrawerOpen(false);
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
   };
 
   return (
     <>
-      <SideDrawer show={isDrawerOpen} onClose={closeDrawerHandler}>
+      <SideDrawer show={isDrawerOpen} onClose={toggleDrawer}>
         <nav className={s.navigationDrawerNav}>
           <NavLinks />
         </nav>
       </SideDrawer>
 
       <MainHeader>
-        <button
-          onClick={openDrawerHandler}
-          className={s.navigationBtn}
-        >
+        <button onClick={toggleDrawer} className={s.navigationBtn}>
           <span />
           <span />
           <span />

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
-import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
-import Modal from '../../shared/components/UIElements/Modal';
+import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
+import Modal from '../../shared/components/UIElements/Modal';
+import { useModal } from '../../shared/hooks/useModal';
 import s from './PlaceItem.module.scss';
 
 const PlaceItem = ({
@@ -16,29 +17,48 @@ const PlaceItem = ({
   coordinates,
   creatorId,
 }) => {
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, toggleMap] = useModal(false);
+  const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
 
-  const openMapHandler = () => {
-    setShowMap(true);
-  };
-
-  const closeMapHandler = () => {
-    setShowMap(false);
+  const confirmDeletePlace = () => {
+    toggleDeleteWarning();
+    console.log('Deleting...'); // TODO: send delete to backend
   };
 
   return (
     <>
       <Modal
         show={showMap}
-        onCancel={closeMapHandler}
+        onCancel={toggleMap}
         contentClass={s.placeModalContent}
         footerClass={s.placeModalActions}
         header={address}
-        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+        footer={<Button onClick={toggleMap}>CLOSE</Button>}
       >
         <div className={s.mapContainer}>
           <Map center={coordinates} zoom={16} />
         </div>
+      </Modal>
+
+      <Modal
+        show={showDeleteWarning}
+        onCancel={toggleDeleteWarning}
+        contentClass={s.placeModalContent}
+        footerClass={s.placeModalActions}
+        header="Are you sure?"
+        footer={
+          <>
+            <Button onClick={confirmDeletePlace} danger>
+              DELETE
+            </Button>
+            <Button onClick={toggleDeleteWarning}>CANCEL</Button>
+          </>
+        }
+      >
+        <p className={s.deletePlaceTitle}>
+          Do you really want to proceed and delete this place? <br />
+          This action cannot be undone.
+        </p>
       </Modal>
 
       <li className={s.placeItem}>
@@ -54,7 +74,7 @@ const PlaceItem = ({
           </div>
 
           <div className={s.placeActions}>
-            <Button onClick={openMapHandler} inverse>
+            <Button onClick={toggleMap} inverse>
               VIEW ON MAP
             </Button>
 
@@ -64,7 +84,9 @@ const PlaceItem = ({
               EDIT
             </Button>
 
-            <Button danger>DELETE</Button>
+            <Button onClick={toggleDeleteWarning} danger>
+              DELETE
+            </Button>
           </div>
         </Card>
       </li>
