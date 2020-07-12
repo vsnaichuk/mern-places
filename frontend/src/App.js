@@ -10,6 +10,7 @@ import UpdatePlace from './places/containers/UpdatePlace';
 import UserPlaces from './places/containers/UserPlaces';
 import { routes } from './routes';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
+import PrivateRoute from './shared/components/Navigation/PrivateRoute';
 import { AuthContext } from './shared/context/authContext';
 import Auth from './user/containers/Auth';
 
@@ -37,21 +38,23 @@ const App = (props) => {
               <Users />
             </Route>
 
-            <Route path={routes.USER_PLACES} exact>
+            <PrivateRoute path={routes.USER_PLACES} exact>
               <UserPlaces />
-            </Route>
+            </PrivateRoute>
 
-            <Route path={routes.NEW_PLACE}>
+            <PrivateRoute path={routes.NEW_PLACE}>
               <NewPlace />
-            </Route>
+            </PrivateRoute>
 
-            <Route path={routes.EDIT_PLACE}>
+            <PrivateRoute path={routes.EDIT_PLACE}>
               <UpdatePlace />
-            </Route>
+            </PrivateRoute>
 
-            <Route path={routes.AUTH}>
-              <Auth />
-            </Route>
+            {!isLoggedIn && (
+              <Route path={routes.AUTH}>
+                <Auth />
+              </Route>
+            )}
 
             <Redirect to={routes.HOME} />
           </Switch>

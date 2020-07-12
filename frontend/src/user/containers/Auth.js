@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
+import { AuthContext } from '../../shared/context/authContext';
 import { useForm } from '../../shared/hooks/useForm';
 import {
   VALIDATOR_MINLENGTH,
@@ -11,6 +12,7 @@ import {
 import s from './Auth.module.scss';
 
 const Auth = (props) => {
+  const { login } = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -56,6 +58,12 @@ const Auth = (props) => {
     setIsLoginMode((prev) => !prev);
   };
 
+  const authSubmitHandler = (e) => {
+    e.preventDefault(); // TODO: Add submit handler
+    console.log('Auth...');
+    login();
+  };
+
   return (
     <>
       <Card className={s.auth}>
@@ -65,8 +73,7 @@ const Auth = (props) => {
 
         <hr />
 
-        <form className={s.authForm} onSubmit={() => {}}>
-          {/*// TODO: Add submit handler*/}
+        <form className={s.authForm} onSubmit={authSubmitHandler}>
           {!isLoginMode && (
             <Input
               id="name"
