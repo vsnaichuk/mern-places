@@ -13,7 +13,6 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import PrivateRoute from './shared/components/Navigation/PrivateRoute';
 import { AuthContext } from './shared/context/authContext';
 import Auth from './user/containers/Auth';
-
 import Users from './user/containers/Users';
 
 const App = (props) => {
@@ -38,9 +37,9 @@ const App = (props) => {
               <Users />
             </Route>
 
-            <PrivateRoute path={routes.USER_PLACES} exact>
+            <Route path={routes.USER_PLACES} exact>
               <UserPlaces />
-            </PrivateRoute>
+            </Route>
 
             <PrivateRoute path={routes.NEW_PLACE}>
               <NewPlace />
