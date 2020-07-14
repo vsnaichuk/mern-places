@@ -4,7 +4,7 @@ import PlacesList from '../components/PlacesList';
 
 const DUMMY_PLACES = [
   {
-    id: 1,
+    id: 'p1',
     title: 'Museum of Contemporary Art Australia',
     description:
       'The Museum of Contemporary Art Australia (abbreviated MCA), located in George Street, Sydney, is an Australian museum solely dedicated to exhibiting, interpreting and collecting contemporary art, both from across Australia and around the world.',
@@ -18,7 +18,7 @@ const DUMMY_PLACES = [
     creator: 'u1',
   },
   {
-    id: 2,
+    id: 'p2',
     title: 'Maidan Nezalezhnosti',
     description:
       "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
@@ -32,7 +32,7 @@ const DUMMY_PLACES = [
     creator: 'u2',
   },
   {
-    id: 3,
+    id: 'p3',
     title: 'Maidan Nezalezhnosti',
     description:
       "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
