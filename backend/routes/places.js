@@ -41,4 +41,12 @@ router.get('/:placeId', (req, res, next) => {
   res.json({ place });
 });
 
+router.get('/user/:userId', (req, res, next) => {
+  const { userId } = req.params;
+
+  const places = DUMMY_PLACES.filter((p) => p.creator === userId);
+
+  res.json({ [userId]: places });
+});
+
 module.exports = router;
