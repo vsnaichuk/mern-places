@@ -51,7 +51,7 @@ const getPlacesByUserId = (req, res, next) => {
 
   const places = DUMMY_PLACES.filter((p) => p.creator === userId);
 
-  if (!places[0]) {
+  if (!places || places.length === 0) {
     return next(
       new HttpError(
         'Could not find places for the provided user id',
@@ -60,7 +60,7 @@ const getPlacesByUserId = (req, res, next) => {
     );
   }
 
-  res.json({ [userId]: places });
+  res.json({ places });
 };
 
 const createPlace = (req, res, next) => {
