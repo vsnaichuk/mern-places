@@ -51,10 +51,10 @@ const getPlacesByUserId = (req, res, next) => {
 
   const places = DUMMY_PLACES.filter((p) => p.creator === userId);
 
-  if (!places) {
+  if (!places[0]) {
     return next(
       new HttpError(
-        'Could not find pces for the provided user id',
+        'Could not find places for the provided user id',
         404,
       ),
     );
