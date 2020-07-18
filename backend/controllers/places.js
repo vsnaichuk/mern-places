@@ -1,5 +1,6 @@
 const uuid = require('uuid/v4');
 const HttpError = require('../models/http-error');
+const { validationResult } = require('express-validator');
 
 let DUMMY_PLACES = [
   {
@@ -7,8 +8,6 @@ let DUMMY_PLACES = [
     title: 'Museum of Contemporary Art Australia',
     description:
       'The Museum of Contemporary Art Australia (abbreviated MCA), located in George Street, Sydney, is an Australian museum solely dedicated to exhibiting, interpreting and collecting contemporary art, both from across Australia and around the world.',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/MCA_Sydney.jpg/800px-MCA_Sydney.jpg',
     address: '140 George St, The Rocks NSW 2000, Australia',
     location: {
       lat: -33.8599358,
@@ -21,8 +20,6 @@ let DUMMY_PLACES = [
     title: 'Maidan Nezalezhnosti',
     description:
       "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
     address: 'Kyiv 02000',
     location: {
       lat: 50.450555,
@@ -64,10 +61,15 @@ const getPlacesByUserId = (req, res, next) => {
 };
 
 const createPlace = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError('Invalid inputs passed!', 422);
+  }
+
   const {
     title,
     description,
-    imageUrl,
     address,
     coordinates,
     creator,
@@ -77,7 +79,6 @@ const createPlace = (req, res, next) => {
     id: uuid(),
     title,
     description,
-    imageUrl,
     address,
     location: coordinates,
     creator,
@@ -93,12 +94,22 @@ const deletePlace = (req, res, next) => {
 
   DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
 
+  if (!DUMMY_PLACES.filter((p) => p.id === placeId)) {
+    throw new HttpError('Could not find place for that id!', 404);
+  }
+
   res.status(200).json({
     message: 'Successfully deleted',
   });
 };
 
 const updatePlace = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError('Invalid inputs passed!', 422);
+  }
+
   const { placeId } = req.params;
   const { title, description } = req.body;
 
@@ -121,4 +132,4 @@ exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
 exports.deletePlace = deletePlace;
-exports.changePlace = updatePlace;
+exports.updatePlace = updatePlace;
