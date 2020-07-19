@@ -1,5 +1,5 @@
 @import "src/shared/styles/variables";
-@import 'src/shared/styles/mixins';
+@import "src/shared/styles/mixins";
 
 .modal {
   z-index: 100;
@@ -13,7 +13,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 8px;
   overflow-y: auto;
-  @include scrollbars(20px, 10px, #8d68ce, #1b0245);
+  @include scrollbars(14px, 10px, #1a4369, #232741);
 }
 
 .modalHeader {
