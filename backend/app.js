@@ -30,7 +30,8 @@ app.use((e, req, res, next) => {
 
 mongoose
   .connect(
-    'mongodb+srv://v.snaichuk:yoWeiiGFl3fRsA45@cluster0-g8eu9.mongodb.net/places?retryWrites=true&w=majority',
+    'mongodb+srv://v_snaichuk:yoWeiiGFl3fRsA45@cluster0.xfxuz.mongodb.net/places?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then(() => {
     app.listen(port, () =>
