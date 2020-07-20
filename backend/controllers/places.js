@@ -123,7 +123,7 @@ const deletePlace = async (req, res, next) => {
   try {
     place = await Place.findById(placeId);
 
-    await place.remove();
+    await place.deleteOne();
   } catch (e) {
     return next(
       new HttpError(
