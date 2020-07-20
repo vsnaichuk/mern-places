@@ -1,20 +1,6 @@
 const uuid = require('uuid/v4');
 const HttpError = require('../models/http-error');
-
-const DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Vova',
-    email: 'test@gmail.com',
-    password: 'test',
-  },
-  {
-    id: 'u2',
-    name: 'Ivan',
-    email: 'test2@gmail.com',
-    password: 'test2',
-  },
-];
+const { DUMMY_USERS } = require('../dummy-data');
 
 const getUsers = (req, res, next) => {
   if (!DUMMY_USERS || DUMMY_USERS.length === 0) {
