@@ -1,6 +1,6 @@
-const uuid = require('uuid/v4');
 const HttpError = require('../models/http-error');
 const { DUMMY_USERS } = require('../dummy-data');
+const User = require('../models/user');
 
 const getUsers = (req, res, next) => {
   if (!DUMMY_USERS || DUMMY_USERS.length === 0) {
@@ -10,27 +10,46 @@ const getUsers = (req, res, next) => {
   res.json({ users: DUMMY_USERS });
 };
 
-const signUp = (req, res, next) => {
-  const { name, email, password } = req.body;
+const signUp = async (req, res, next) => {
+  const { name, email, password, places } = req.body;
 
-  const hasUser = DUMMY_USERS.find((u) => u.email === email);
-  if (hasUser) {
-    throw new HttpError(
-      'Could not create user, email already exists.',
-      422,
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (e) {
+    return next(
+      new HttpError('Signing Up failed, please try again.', 500),
     );
   }
 
-  const createdUser = {
-    id: uuid(),
+  if (existingUser) {
+    return next(
+      new HttpError(
+        'Could not create user, email already exists.',
+        422,
+      ),
+    );
+  }
+
+  const createdUser = new User({
     name,
     email,
-    password,
-  };
+    password, // TODO: Encrypt User password
+    image: 'https://randomuser.me/api/portraits/men/1.jpg', // TODO: Implement file upload
+    places,
+  });
 
-  DUMMY_USERS.push(createdUser);
+  try {
+    await createdUser.save();
+  } catch (e) {
+    return next(
+      new HttpError('Creating User failed, please try again.', 500),
+    );
+  }
 
-  res.status(201).json({ user: createdUser });
+  res
+    .status(201)
+    .json({ user: createdUser.toObject({ getters: true }) });
 };
 
 const login = (req, res, next) => {
