@@ -22,7 +22,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signUp = async (req, res, next) => {
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
 
   let existingUser;
   try {
@@ -47,7 +47,7 @@ const signUp = async (req, res, next) => {
     email,
     password, // TODO: Encrypt User password
     image: 'https://randomuser.me/api/portraits/men/1.jpg', // TODO: Implement file upload
-    places,
+    places: [],
   });
 
   try {

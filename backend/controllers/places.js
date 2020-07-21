@@ -1,7 +1,9 @@
-const HttpError = require('../models/http-error');
-const getCoordsForAddress = require('../util/location');
+const mongoose = require('mongoose');
 // const { DUMMY_PLACES } = require('../dummy-data');
+const HttpError = require('../models/http-error');
 const Place = require('../models/place');
+const User = require('../models/user');
+const getCoordsForAddress = require('../util/location');
 
 const getPlaceById = async (req, res, next) => {
   const { placeId } = req.params;
@@ -76,14 +78,33 @@ const createPlace = async (req, res, next) => {
     creator,
   });
 
+  let user;
   try {
-    await createdPlace.save();
+    user = await User.findById(creator);
   } catch (e) {
     return next(
-      new HttpError(
-        'Creating Place failed, please try again later.',
-        500,
-      ),
+      new HttpError('Creating place failed, please try again.', 500),
+    );
+  }
+
+  if (!user) {
+    return next(
+      new HttpError('Could not find User for provided id.', 404),
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+
+    await createdPlace.save({ session: sess });
+    user.places.push(createdPlace);
+    await user.save({ session: sess });
+
+    await sess.commitTransaction();
+  } catch (err) {
+    return next(
+      new HttpError('Creating place failed, please try again.', 500),
     );
   }
 
