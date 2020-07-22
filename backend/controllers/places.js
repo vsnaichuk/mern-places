@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-// const { DUMMY_PLACES } = require('../dummy-data');
+
 const HttpError = require('../models/http-error');
+// const { DUMMY_PLACES } = require('../dummy-data');
 const Place = require('../models/place');
 const User = require('../models/user');
 const getCoordsForAddress = require('../util/location');
@@ -142,9 +143,31 @@ const deletePlace = async (req, res, next) => {
 
   let place;
   try {
-    place = await Place.findById(placeId);
+    place = await Place.findById(placeId).populate('creator');
+  } catch (e) {
+    return next(
+      new HttpError(
+        'Something went wrong, could not find Place',
+        500,
+      ),
+    );
+  }
 
-    await place.deleteOne();
+  if (!place) {
+    return next(
+      new HttpError('Could not find place for the provided id', 404),
+    );
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+
+    await place.deleteOne({ session: sess });
+    place.creator.places.pull(place);
+    place.creator.save({ session: sess });
+
+    await sess.commitTransaction();
   } catch (e) {
     return next(
       new HttpError(
