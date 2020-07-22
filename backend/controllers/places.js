@@ -1,73 +1,48 @@
 const mongoose = require('mongoose');
+const asyncHandler = require('express-async-handler');
 
+const getCoordsForAddress = require('../util/location');
 const HttpError = require('../models/http-error');
-// const { DUMMY_PLACES } = require('../dummy-data');
 const Place = require('../models/place');
 const User = require('../models/user');
-const getCoordsForAddress = require('../util/location');
+// const { DUMMY_PLACES } = require('../dummy-data');
 
-const getPlaceById = async (req, res, next) => {
+const getPlaceById = asyncHandler(async (req, res, next) => {
   const { placeId } = req.params;
 
-  let place;
-  try {
-    place = await Place.findById(placeId);
-  } catch (e) {
-    return next(
-      new HttpError(
-        'Something went wrong, could not find place.',
-        500,
-      ),
-    );
-  }
+  const place = await Place.findById(placeId);
 
   if (!place) {
-    return next(
-      new HttpError('Could not find place for the provided id', 404),
+    throw new HttpError(
+      'Could not find place for the provided id',
+      404,
     );
   }
 
   res.json({ place: place.toObject({ getters: true }) });
-};
+});
 
-const getPlacesByUserId = async (req, res, next) => {
+const getPlacesByUserId = asyncHandler(async (req, res, next) => {
   const { userId } = req.params;
 
-  let places;
-  try {
-    places = await Place.find({ creator: userId });
-  } catch (e) {
-    return next(
-      new HttpError(
-        'Fetching places failed, please try again later.',
-        500,
-      ),
-    );
-  }
+  const places = await Place.find({ creator: userId });
 
   if (!places || places.length === 0) {
-    return next(
-      new HttpError(
-        'Could not find places for the provided user id',
-        404,
-      ),
+    throw new HttpError(
+      'Could not find places for the provided user id',
+      404,
     );
   }
 
   res.json({
     places: places.map((p) => p.toObject({ getters: true })),
   });
-};
+});
 
-const createPlace = async (req, res, next) => {
+const createPlace = asyncHandler(async (req, res, next) => {
   const { title, description, address, creator } = req.body;
 
-  let coordinates;
-  try {
-    coordinates = await getCoordsForAddress(address);
-  } catch (e) {
-    return next(e);
-  }
+  const coordinates = await getCoordsForAddress(address);
 
   const createdPlace = new Place({
     title,
@@ -79,19 +54,10 @@ const createPlace = async (req, res, next) => {
     creator,
   });
 
-  let user;
-  try {
-    user = await User.findById(creator);
-  } catch (e) {
-    return next(
-      new HttpError('Creating place failed, please try again.', 500),
-    );
-  }
+  const user = await User.findById(creator);
 
   if (!user) {
-    return next(
-      new HttpError('Could not find User for provided id.', 404),
-    );
+    throw new HttpError('Could not find User for provided id.', 404);
   }
 
   try {
@@ -104,58 +70,47 @@ const createPlace = async (req, res, next) => {
 
     await sess.commitTransaction();
   } catch (err) {
-    return next(
-      new HttpError('Creating place failed, please try again.', 500),
+    throw new HttpError(
+      'Creating place failed, please try again later.',
+      500,
     );
   }
 
   res.status(201).json({ place: createdPlace });
-};
+});
 
-const updatePlace = async (req, res, next) => {
+const updatePlace = asyncHandler(async (req, res, next) => {
   const { placeId } = req.params;
   const { title, description } = req.body;
 
-  let place;
-  try {
-    place = await Place.findById(placeId);
+  const place = await Place.findById(placeId);
 
-    place.title = title;
-    place.description = description;
-
-    await place.save();
-  } catch (e) {
-    return next(
-      new HttpError(
-        'Something went wrong, updating Place failed, please try again later',
-        500,
-      ),
+  if (!place) {
+    throw new HttpError(
+      'Could not find place for the provided id',
+      404,
     );
   }
+
+  place.title = title;
+  place.description = description;
+
+  await place.save();
 
   res.status(200).json({
     place: place.toObject({ getters: true }),
   });
-};
+});
 
-const deletePlace = async (req, res, next) => {
+const deletePlace = asyncHandler(async (req, res, next) => {
   const { placeId } = req.params;
 
-  let place;
-  try {
-    place = await Place.findById(placeId).populate('creator');
-  } catch (e) {
-    return next(
-      new HttpError(
-        'Something went wrong, could not find Place',
-        500,
-      ),
-    );
-  }
+  const place = await Place.findById(placeId).populate('creator');
 
   if (!place) {
-    return next(
-      new HttpError('Could not find place for the provided id', 404),
+    throw new HttpError(
+      'Could not find place for the provided id',
+      404,
     );
   }
 
@@ -180,7 +135,7 @@ const deletePlace = async (req, res, next) => {
   res.status(200).json({
     message: 'Successfully deleted',
   });
-};
+});
 
 exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
