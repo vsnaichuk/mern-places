@@ -4,7 +4,7 @@ export const useModal = () => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {
-    setShowModal(!showModal);
+    setShowModal((prev) => !prev);
   };
 
   return [showModal, toggleModal];

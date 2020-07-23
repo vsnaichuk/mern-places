@@ -3,12 +3,14 @@ import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import { AuthContext } from '../../shared/context/authContext';
+import Api from '../../shared/services';
 import { useForm } from '../../shared/hooks/useForm';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_EMAIL,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
+
 import s from './Auth.module.scss';
 
 const Auth = (props) => {
@@ -58,9 +60,24 @@ const Auth = (props) => {
     setIsLoginMode((prev) => !prev);
   };
 
-  const authSubmitHandler = (e) => {
-    e.preventDefault(); // TODO: Add submit handler
-    console.log('Auth...');
+  const authSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    if (isLoginMode) {
+    } else {
+      try {
+        const res = await Api.Auth.signUp({
+          name: formState.inputs.name.value,
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        });
+
+        console.log(res.data.user);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     login();
   };
 
