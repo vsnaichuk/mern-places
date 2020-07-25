@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
+import Spinner from '../../shared/components/UIElements/Spinner';
 import { AuthContext } from '../../shared/context/authContext';
-import Api from '../../shared/services';
 import { useForm } from '../../shared/hooks/useForm';
+import Api from '../../shared/services';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_EMAIL,
@@ -16,6 +17,8 @@ import s from './Auth.module.scss';
 const Auth = (props) => {
   const { login } = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -62,6 +65,7 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (isLoginMode) {
     } else {
@@ -73,17 +77,22 @@ const Auth = (props) => {
         });
 
         console.log(res.data.user);
+        setIsLoading(false);
+
+        login();
       } catch (e) {
         console.log(e);
+        setIsLoading(false);
+        setError(e.message || 'Something went wrong, pls try again');
       }
     }
-
-    login();
   };
 
   return (
     <>
       <Card className={s.auth}>
+        {isLoading && <Spinner asOverlay />}
+
         <h2 className={s.authTitle}>
           {isLoginMode ? 'LOGIN' : 'REGISTER'}
         </h2>

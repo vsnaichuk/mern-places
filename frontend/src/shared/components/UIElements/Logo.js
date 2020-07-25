@@ -12,9 +12,10 @@ const Logo = (props) => {
           x2={64}
           y2={105.94}
           id="prefix__a"
+          spreadMethod="reflect"
         >
-          <stop offset={0} stopColor="#4278ed" />
-          <stop offset={1} stopColor="#1146b7" />
+          <stop offset={0} stopColor="#4242ed" />
+          <stop offset={1} stopColor="#4311b7" />
         </linearGradient>
       </defs>
       <title />
@@ -24,14 +25,17 @@ const Logo = (props) => {
           cy={106.06}
           rx={47.51}
           ry={12}
-          fill="#457bea"
+          paintOrder="fill"
+          fill="#5545ea"
         />
         <path
           d="M64 105.94L82.74 95c-4.56-.5-9.5-.81-14.67-.92z"
-          fill="#2660df"
+          fill="#242848"
+          filter="none"
         />
         <path
           d="M35.88 77.82a39.76 39.76 0 1156.24 0L64 105.94z"
+          filter="none"
           fill="url(#prefix__a)"
         />
         <circle
@@ -45,7 +49,7 @@ const Logo = (props) => {
         <path
           d="M57.46 60.25A14.89 14.89 0 0166 34.94a14.9 14.9 0 100 29.52 14.83 14.83 0 01-8.54-4.21z"
           fillOpacity={0.26}
-          fill="#336dff"
+          fill="#7a33ff"
         />
       </g>
     </svg>

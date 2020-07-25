@@ -1,0 +1,44 @@
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background:rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerBox {
+  position: relative;
+  width: 128.571px;
+  height: 128.571px;
+  animation: spinnerAnimation 0.6s linear 0s infinite normal forwards running;
+}
+
+.spinnerBall {
+  width: 14.2857px;
+  height: 14.2857px;
+  border-radius: 100%;
+  background-color: #1a4369;
+  opacity: 0.8;
+  position: absolute;
+  top: 42.8571px;
+  animation: spinnerAnimation 0.6s linear 0s infinite normal forwards running;
+}
+
+.spinnerCircleBack {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  border: 14.2857px solid rgb(54, 108, 215);
+  opacity: 0.1;
+  box-sizing: content-box;
+}
+
+@keyframes spinnerAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
