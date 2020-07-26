@@ -17,7 +17,8 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "http-proxy-middleware": "^1.0.5"

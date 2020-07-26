@@ -1,65 +1,23 @@
-import React, { useCallback, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import NewPlace from './places/containers/NewPlace';
-import UpdatePlace from './places/containers/UpdatePlace';
-import UserPlaces from './places/containers/UserPlaces';
-import { routes } from './routes';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { BaseRoutes } from './routes';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-import PrivateRoute from './shared/components/Navigation/PrivateRoute';
-import { AuthContext } from './shared/context/authContext';
-import Auth from './user/containers/Auth';
-import Users from './user/containers/Users';
+import { AuthProvider } from './shared/context/authContext';
+import { ToastProvider } from './shared/context/toastContext';
 
-const App = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
-
+const App = () => {
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-      <Router>
-        <MainNavigation />
+    <AuthProvider>
+      <ToastProvider>
+        <Router>
+          <MainNavigation />
 
-        <main>
-          <Switch>
-            <Route path={routes.HOME} exact>
-              <Users />
-            </Route>
-
-            <Route path={routes.USER_PLACES} exact>
-              <UserPlaces />
-            </Route>
-
-            <PrivateRoute path={routes.NEW_PLACE}>
-              <NewPlace />
-            </PrivateRoute>
-
-            <PrivateRoute path={routes.EDIT_PLACE}>
-              <UpdatePlace />
-            </PrivateRoute>
-
-            {!isLoggedIn && (
-              <Route path={routes.AUTH}>
-                <Auth />
-              </Route>
-            )}
-
-            <Redirect to={routes.HOME} />
-          </Switch>
-        </main>
-      </Router>
-    </AuthContext.Provider>
+          <main>
+            <BaseRoutes />
+          </main>
+        </Router>
+      </ToastProvider>
+    </AuthProvider>
   );
 };
 

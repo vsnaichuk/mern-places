@@ -23,10 +23,7 @@ const SideDrawer = ({ children, show, onClose }) => {
     </>
   );
 
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('drawer-hook'),
-  );
+  return ReactDOM.createPortal(content, document.body);
 };
 
 export default SideDrawer;

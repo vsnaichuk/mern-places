@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
-import { AuthContext } from '../../shared/context/authContext';
+import { useAuthContext } from '../../shared/context/authContext';
+import { useToastContext } from '../../shared/context/toastContext';
 import { useForm } from '../../shared/hooks/useForm';
 import Api from '../../shared/services';
 import {
@@ -15,7 +16,8 @@ import {
 import s from './Auth.module.scss';
 
 const Auth = (props) => {
-  const { login } = useContext(AuthContext);
+  const { login } = useAuthContext();
+  const { addToast } = useToastContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -149,6 +151,50 @@ const Auth = (props) => {
 
         <Button inverse onClick={switchModeHandler}>
           Switch to {isLoginMode ? 'Register' : 'Login'}
+        </Button>
+
+        <Button
+          onClick={() =>
+            addToast({
+              messageType: 'success',
+              content: 'Auth success',
+            })
+          }
+        >
+          Show basic notification
+        </Button>
+
+        <Button
+          onClick={() =>
+            addToast({
+              messageType: 'warning',
+              content: 'Auth warning',
+            })
+          }
+        >
+          Show basic notification
+        </Button>
+
+        <Button
+          onClick={() =>
+            addToast({
+              messageType: 'danger',
+              content: 'Auth danger',
+            })
+          }
+        >
+          Show basic notification
+        </Button>
+
+        <Button
+          onClick={() =>
+            addToast({
+              messageType: 'info',
+              content: 'Auth info',
+            })
+          }
+        >
+          Show basic notification
         </Button>
       </Card>
     </>

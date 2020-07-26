@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
-import { AuthContext } from '../../shared/context/authContext';
+import { useAuthContext } from '../../shared/context/authContext';
 import { useModal } from '../../shared/hooks/useModal';
 import s from './PlaceItem.module.scss';
 
@@ -18,7 +18,7 @@ const PlaceItem = ({
   coordinates,
   creatorId,
 }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuthContext();
   const [showMap, toggleMap] = useModal(false);
   const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
 

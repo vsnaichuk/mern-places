@@ -16,8 +16,7 @@
     "express-async-handler": "^1.1.4",
     "express-validator": "^6.6.0",
     "mongoose": "^5.9.25",
-    "mongoose-unique-validator": "^2.0.3",
-    "uuid": "^3.4.0"
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

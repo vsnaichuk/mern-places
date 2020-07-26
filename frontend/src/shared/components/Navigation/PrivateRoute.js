@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { routes } from '../../../routes';
-import { AuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../context/authContext';
 
 const PrivateRoute = ({ children, ...otherProps }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuthContext();
 
   return (
     <Route

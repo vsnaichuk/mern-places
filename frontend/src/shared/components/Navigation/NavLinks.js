@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../../../routes';
-import { AuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../context/authContext';
 import Button from '../FormElements/Button';
 import s from './NavLinks.module.scss';
 
 const NavLinks = () => {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout } = useAuthContext();
 
   return (
     <ul className={s.navLinks}>

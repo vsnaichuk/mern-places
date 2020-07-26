@@ -1,6 +1,6 @@
+import cx from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cx from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import Backdrop from './Backdrop';
 import s from './Modal.module.scss';
@@ -36,10 +36,7 @@ const ModalOverlay = ({
     </div>
   );
 
-  return ReactDOM.createPortal(
-    content,
-    document.getElementById('modal-hook'),
-  );
+  return ReactDOM.createPortal(content, document.body);
 };
 
 const Modal = (props) => {
