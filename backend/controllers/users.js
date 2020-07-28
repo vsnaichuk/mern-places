@@ -37,9 +37,10 @@ const signUp = asyncHandler(async (req, res, next) => {
 
   await createdUser.save();
 
-  res
-    .status(201)
-    .json({ user: createdUser.toObject({ getters: true }) });
+  res.status(201).json({
+    user: createdUser.toObject({ getters: true }),
+    message: 'Account has been successfully created.',
+  });
 });
 
 const login = asyncHandler(async (req, res, next) => {

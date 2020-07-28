@@ -69,6 +69,30 @@ const Auth = (props) => {
     setIsLoading(true);
 
     if (isLoginMode) {
+      try {
+        const res = await Api.Auth.login({
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        });
+
+        console.log(res);
+        setIsLoading(false);
+
+        login();
+
+        addToast({
+          messageType: 'success',
+          content: res.data.message,
+        });
+      } catch (e) {
+        console.log(e.response.data);
+        setIsLoading(false);
+        addToast({
+          messageType: 'danger',
+          content:
+            e.response.data || 'Something went wrong, pls try again',
+        });
+      }
     } else {
       try {
         const res = await Api.Auth.signUp({
@@ -77,14 +101,14 @@ const Auth = (props) => {
           password: formState.inputs.password.value,
         });
 
-        console.log(res.data.user);
+        console.log(res);
         setIsLoading(false);
 
         login();
 
         addToast({
           messageType: 'success',
-          content: res.statusText,
+          content: res.data.message,
         });
       } catch (e) {
         console.log(e.response.data);
@@ -109,7 +133,7 @@ const Auth = (props) => {
 
         <hr />
 
-        <form className={s.authForm} onSubmit={authSubmitHandler}>
+        <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
             <Input
               id="name"
