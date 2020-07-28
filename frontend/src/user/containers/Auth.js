@@ -69,6 +69,7 @@ const Auth = (props) => {
     setIsLoading(true);
 
     if (isLoginMode) {
+      // TODO: Refactoring
       try {
         const res = await Api.Auth.login({
           email: formState.inputs.email.value,
@@ -85,12 +86,12 @@ const Auth = (props) => {
           content: res.data.message,
         });
       } catch (e) {
-        console.log(e.response.data);
+        console.log(e);
         setIsLoading(false);
         addToast({
           messageType: 'danger',
           content:
-            e.response.data || 'Something went wrong, pls try again',
+            e.response?.data || 'Something went wrong, pls try again',
         });
       }
     } else {
@@ -111,12 +112,12 @@ const Auth = (props) => {
           content: res.data.message,
         });
       } catch (e) {
-        console.log(e.response.data);
+        console.log(e);
         setIsLoading(false);
         addToast({
           messageType: 'danger',
           content:
-            e.response.data || 'Something went wrong, pls try again',
+            e.response?.data || 'Something went wrong, pls try again',
         });
       }
     }

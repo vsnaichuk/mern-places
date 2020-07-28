@@ -3,6 +3,7 @@ import axios from 'axios';
 const urls = {
   LOGIN: '/api/users/login',
   SIGN_UP: '/api/users/signup',
+  USERS: '/api/users',
 };
 
 export const Auth = {
@@ -12,5 +13,11 @@ export const Auth = {
 
   login(body) {
     return axios.post(urls.LOGIN, body);
+  },
+};
+
+export const User = {
+  getAllUsers() {
+    return axios.get(urls.USERS);
   },
 };

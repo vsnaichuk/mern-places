@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Spinner from '../../shared/components/UIElements/Spinner';
+import { useToastContext } from '../../shared/hooks/toastHook';
+import { User } from '../../shared/services/Api';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
-  const DUMMY_USERS = [
-    {
-      id: 'u1',
-      name: 'Vova',
-      image: 'https://randomuser.me/api/portraits/men/1.jpg',
-      placeCount: 12,
-    },
-    {
-      id: 'u2',
-      name: 'Ivan',
-      image: 'https://randomuser.me/api/portraits/men/2.jpg',
-      placeCount: 4,
-    },
-  ];
+  const { addToast } = useToastContext();
+  const [loadedUsers, setLoadedUsers] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  return <UsersList items={DUMMY_USERS} />;
+  useEffect(() => {
+    const sendRequest = async () => {
+      setIsLoading(true);
+
+      try {
+        const res = await User.getAllUsers();
+        console.log(res);
+        setLoadedUsers(res.data.users);
+      } catch (e) {
+        console.log(e);
+        addToast({
+          messageType: 'danger',
+          content: e.response?.data || 'Something went wrong',
+        });
+      }
+
+      setIsLoading(false);
+    };
+
+    sendRequest();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  return loadedUsers && <UsersList items={loadedUsers} />;
 };
 
 export default Users;

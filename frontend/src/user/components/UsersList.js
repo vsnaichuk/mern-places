@@ -1,6 +1,6 @@
 import React from 'react';
-import UserItem from './UserItem';
 import Card from '../../shared/components/UIElements/Card';
+import UserItem from './UserItem';
 import s from './UsersList.module.scss';
 
 const UsersList = ({ items }) => {
@@ -23,7 +23,7 @@ const UsersList = ({ items }) => {
             id={user.id}
             name={user.name}
             image={user.image}
-            placeCount={user.placeCount}
+            placeCount={user.places.length}
           />
         );
       })}
