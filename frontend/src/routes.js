@@ -4,7 +4,7 @@ import NewPlace from './places/containers/NewPlace';
 import UpdatePlace from './places/containers/UpdatePlace';
 import UserPlaces from './places/containers/UserPlaces';
 import PrivateRoute from './shared/components/Navigation/PrivateRoute';
-import { useAuthContext } from './shared/context/authContext';
+import { useAuthContext } from './shared/hooks/authHook';
 import Auth from './user/containers/Auth';
 import Users from './user/containers/Users';
 

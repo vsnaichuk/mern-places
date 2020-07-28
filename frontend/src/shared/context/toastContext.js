@@ -1,14 +1,9 @@
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useCallback,
-} from 'react';
+import React, { createContext, useReducer, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 import Toast from '../components/UIElements/Toast';
 
 export const ToastContext = createContext({
-  toasts: [],
+  toastsState: [],
   addToast: () => {},
   removeToast: () => {},
 });
@@ -56,8 +51,4 @@ export const ToastProvider = ({ children }) => {
       <Toast {...{ toastsState, removeToast }} />
     </ToastContext.Provider>
   );
-};
-
-export const useToastContext = () => {
-  return useContext(ToastContext);
 };

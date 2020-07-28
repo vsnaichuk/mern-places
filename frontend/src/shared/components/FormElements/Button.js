@@ -14,6 +14,7 @@ const Button = ({
   type,
   onClick,
   disabled,
+  className,
 }) => {
   if (href) {
     return (
@@ -55,6 +56,7 @@ const Button = ({
         { [s.buttonInverse]: inverse },
         { [s.buttonDanger]: danger },
         s[size],
+        className,
       )}
       type={type}
       onClick={onClick}

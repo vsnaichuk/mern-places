@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { routes } from '../../../routes';
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../hooks/authHook';
 import Button from '../FormElements/Button';
 import s from './NavLinks.module.scss';
 

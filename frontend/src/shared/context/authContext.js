@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 
 export const AuthContext = createContext({
   isLoggedIn: false,
@@ -27,8 +22,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuthContext = () => {
-  return useContext(AuthContext);
 };

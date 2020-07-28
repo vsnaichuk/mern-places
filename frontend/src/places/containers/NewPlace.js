@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
-import { useForm } from '../../shared/hooks/useForm';
+import { useForm } from '../../shared/hooks/formHook';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,

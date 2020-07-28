@@ -5,8 +5,8 @@ import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
-import { useAuthContext } from '../../shared/context/authContext';
-import { useModal } from '../../shared/hooks/useModal';
+import { useAuthContext } from '../../shared/hooks/authHook';
+import { useModal } from '../../shared/hooks/modalHook';
 import s from './PlaceItem.module.scss';
 
 const PlaceItem = ({

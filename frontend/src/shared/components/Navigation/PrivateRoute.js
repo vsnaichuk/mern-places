@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { routes } from '../../../routes';
-import { useAuthContext } from '../../context/authContext';
+import { useAuthContext } from '../../hooks/authHook';
 
 const PrivateRoute = ({ children, ...otherProps }) => {
   const { isLoggedIn } = useAuthContext();

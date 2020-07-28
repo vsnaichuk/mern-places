@@ -1,29 +1,34 @@
 import cx from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+import Button from '../FormElements/Button';
 import s from './Toast.module.scss';
 
 const Toast = ({ id, messageType, content, removeToast }) => {
-  return (
-    <div
-      className={cx(
-        s.toastItem,
-        { [s.success]: messageType === 'success' },
-        { [s.danger]: messageType === 'danger' },
-        { [s.info]: messageType === 'info' },
-        { [s.warning]: messageType === 'warning' },
-      )}
-    >
-      <span
-        role="img"
-        aria-label="close toast"
-        className="toast-close"
-        onClick={() => removeToast(id)}
-      >
-        &times;
-      </span>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      removeToast(id);
+    }, 6000);
 
-      <p>{content}</p>
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [id, removeToast]);
+
+  return (
+    <div className={cx(s.toastItem, s[messageType])}>
+      <p className={s.toastContent}>{content}</p>
+
+      <Button
+        className={s.toastButton}
+        onClick={() => {
+          removeToast(id);
+        }}
+      />
     </div>
   );
 };
@@ -31,9 +36,19 @@ const Toast = ({ id, messageType, content, removeToast }) => {
 const ToastList = ({ toastsState, ...props }) => {
   const content = (
     <div className={s.toastList}>
-      {toastsState.map((item) => (
-        <Toast key={item.id} {...item} {...props} />
-      ))}
+      <TransitionGroup>
+        {toastsState.map((item) => (
+          <CSSTransition
+            key={item.id}
+            timeout={200}
+            classNames="toast"
+            mountOnEnter
+            unmountOnExit
+          >
+            <Toast key={item.id} {...item} {...props} />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
     </div>
   );
 

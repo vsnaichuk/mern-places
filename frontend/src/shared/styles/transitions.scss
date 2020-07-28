@@ -40,3 +40,26 @@
   opacity: 0;
   transition: all 200ms;
 }
+
+.toast-enter {
+  transform: translateX(120px);
+  opacity: 0;
+}
+
+.toast-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 150ms;
+}
+
+.toast-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-exit-active {
+  transform: translateX(120px);
+  opacity: 0;
+  transition: all 150ms;
+}
+

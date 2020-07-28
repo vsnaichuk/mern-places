@@ -16,7 +16,6 @@
   margin: 0 1rem 1rem 0;
   padding: 8px;
   border-radius: 1px;
-
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
   background: #fff;
   color: #494e5c;
@@ -46,5 +45,40 @@
   color: #fff;
 }
 
+.toastContent {
+  display: inline-block;
+  margin: auto 0;
+  width: 240px;
+  word-break: break-word;
+}
 
+.toastButton {
+  position: relative;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: none;
 
+  &:hover,
+  &:active {
+    background: transparent;
+    border: none;
+    opacity: 0.6;
+  }
+
+  &:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "\274c";
+    font-size: 1rem;
+    color: #fff;
+    text-align: center;
+  }
+}

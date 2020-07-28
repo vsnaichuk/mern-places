@@ -3,9 +3,9 @@ import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
-import { useAuthContext } from '../../shared/context/authContext';
-import { useToastContext } from '../../shared/context/toastContext';
-import { useForm } from '../../shared/hooks/useForm';
+import { useAuthContext } from '../../shared/hooks/authHook';
+import { useForm } from '../../shared/hooks/formHook';
+import { useToastContext } from '../../shared/hooks/toastHook';
 import Api from '../../shared/services';
 import {
   VALIDATOR_MINLENGTH,
@@ -20,7 +20,6 @@ const Auth = (props) => {
   const { addToast } = useToastContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -82,10 +81,19 @@ const Auth = (props) => {
         setIsLoading(false);
 
         login();
+
+        addToast({
+          messageType: 'success',
+          content: res.statusText,
+        });
       } catch (e) {
-        console.log(e);
+        console.log(e.response.data);
         setIsLoading(false);
-        setError(e.message || 'Something went wrong, pls try again');
+        addToast({
+          messageType: 'danger',
+          content:
+            e.response.data || 'Something went wrong, pls try again',
+        });
       }
     }
   };
@@ -151,50 +159,6 @@ const Auth = (props) => {
 
         <Button inverse onClick={switchModeHandler}>
           Switch to {isLoginMode ? 'Register' : 'Login'}
-        </Button>
-
-        <Button
-          onClick={() =>
-            addToast({
-              messageType: 'success',
-              content: 'Auth success',
-            })
-          }
-        >
-          Show basic notification
-        </Button>
-
-        <Button
-          onClick={() =>
-            addToast({
-              messageType: 'warning',
-              content: 'Auth warning',
-            })
-          }
-        >
-          Show basic notification
-        </Button>
-
-        <Button
-          onClick={() =>
-            addToast({
-              messageType: 'danger',
-              content: 'Auth danger',
-            })
-          }
-        >
-          Show basic notification
-        </Button>
-
-        <Button
-          onClick={() =>
-            addToast({
-              messageType: 'info',
-              content: 'Auth info',
-            })
-          }
-        >
-          Show basic notification
         </Button>
       </Card>
     </>
