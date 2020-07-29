@@ -1,4 +1,4 @@
-const asyncHandler = require('express-async-handler');
+const asyncHandler = require('../util/asyncHandler');
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 // const { DUMMY_PLACES } = require('../dummy-data');
