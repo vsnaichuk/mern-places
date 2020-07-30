@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const asyncHandler = require('express-async-handler');
+const asyncHandler = require('../util/async-handler');
 
 const getCoordsForAddress = require('../util/location');
 const HttpError = require('../models/http-error');

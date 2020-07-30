@@ -1,37 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import useAxios from 'axios-hooks';
+import React, { useEffect } from 'react';
+import Api from '../../shared/api';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useToastContext } from '../../shared/hooks/toastHook';
-import { User } from '../../shared/services/Api';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
+  const { urls } = Api;
   const { addToast } = useToastContext();
-  const [loadedUsers, setLoadedUsers] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [{ data, loading, error }] = useAxios(urls.USERS);
 
   useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true);
+    if (error) {
+      addToast({
+        messageType: 'danger',
+        content: error.response?.data || 'Something went wrong',
+      });
+    }
+  }, [error, addToast]);
 
-      try {
-        const res = await User.getAllUsers();
-        console.log(res);
-        setLoadedUsers(res.data.users);
-      } catch (e) {
-        console.log(e);
-        addToast({
-          messageType: 'danger',
-          content: e.response?.data || 'Something went wrong',
-        });
-      }
-
-      setIsLoading(false);
-    };
-
-    sendRequest();
-  }, []);
-
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="center">
         <Spinner />
@@ -39,7 +27,11 @@ const Users = () => {
     );
   }
 
-  return loadedUsers && <UsersList items={loadedUsers} />;
+  if (!data?.users) {
+    return null;
+  }
+
+  return <UsersList items={data.users} />;
 };
 
 export default Users;

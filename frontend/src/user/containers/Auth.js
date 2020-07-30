@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import useAxios from 'axios-hooks';
+import React, { useState, useEffect } from 'react';
+import Api from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
@@ -6,7 +8,6 @@ import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
-import Api from '../../shared/services';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_EMAIL,
@@ -16,10 +17,14 @@ import {
 import s from './Auth.module.scss';
 
 const Auth = (props) => {
+  const { config } = Api;
   const { login } = useAuthContext();
   const { addToast } = useToastContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [{ data, loading, error }, authReq] = useAxios(
+    ...config.auth(isLoginMode),
+  );
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -64,69 +69,48 @@ const Auth = (props) => {
     setIsLoginMode((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (data && !error) {
+      login();
+
+      addToast({
+        messageType: 'success',
+        content: data.message,
+      });
+    }
+    if (error) {
+      addToast({
+        messageType: 'danger',
+        content: error.response?.data || 'Something went wrong',
+      });
+    }
+  }, [data, error]);
+
   const authSubmitHandler = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (isLoginMode) {
-      // TODO: Refactoring
-      try {
-        const res = await Api.Auth.login({
+      authReq({
+        data: {
           email: formState.inputs.email.value,
           password: formState.inputs.password.value,
-        });
-
-        console.log(res);
-        setIsLoading(false);
-
-        login();
-
-        addToast({
-          messageType: 'success',
-          content: res.data.message,
-        });
-      } catch (e) {
-        console.log(e);
-        setIsLoading(false);
-        addToast({
-          messageType: 'danger',
-          content:
-            e.response?.data || 'Something went wrong, pls try again',
-        });
-      }
+        },
+      });
     } else {
-      try {
-        const res = await Api.Auth.signUp({
+      authReq({
+        data: {
           name: formState.inputs.name.value,
           email: formState.inputs.email.value,
           password: formState.inputs.password.value,
-        });
-
-        console.log(res);
-        setIsLoading(false);
-
-        login();
-
-        addToast({
-          messageType: 'success',
-          content: res.data.message,
-        });
-      } catch (e) {
-        console.log(e);
-        setIsLoading(false);
-        addToast({
-          messageType: 'danger',
-          content:
-            e.response?.data || 'Something went wrong, pls try again',
-        });
-      }
+        },
+      });
     }
   };
 
   return (
     <>
       <Card className={s.auth}>
-        {isLoading && <Spinner asOverlay />}
+        {loading && <Spinner asOverlay />}
 
         <h2 className={s.authTitle}>
           {isLoginMode ? 'LOGIN' : 'REGISTER'}
