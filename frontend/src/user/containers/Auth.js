@@ -84,7 +84,7 @@ const Auth = (props) => {
         content: error.response?.data || 'Something went wrong',
       });
     }
-  }, [data, error]);
+  }, [data, error, addToast]);
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();

@@ -1,4 +1,6 @@
+import useAxios from 'axios-hooks';
 import React from 'react';
+import { config } from '../../shared/api/Api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import { useForm } from '../../shared/hooks/formHook';
@@ -9,6 +11,10 @@ import {
 import s from './PlaceForm.module.scss';
 
 const NewPlace = () => {
+  const [{ loading, error, data }, createReq] = useAxios(
+    ...config.newPlace(),
+  );
+
   const [formState, inputHandler] = useForm(
     {
       title: {
@@ -32,7 +38,13 @@ const NewPlace = () => {
   const submitPlaceHandler = (e) => {
     e.preventDefault();
 
-    console.log(formState.inputs); // TODO: send this to backend later
+    createReq({
+      data: {
+        title: formState.inputs.title.value,
+        description: formState.inputs.description.value,
+        address: formState.inputs.address.value,
+      },
+    });
   };
 
   return (
