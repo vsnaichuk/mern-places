@@ -6,9 +6,8 @@ import { useToastContext } from '../../shared/hooks/toastHook';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
-  const { urls } = Api;
   const { addToast } = useToastContext();
-  const [{ data, loading, error }] = useAxios(urls.USERS);
+  const [{ data, loading, error }] = useAxios(Api.urls.USERS);
 
   useEffect(() => {
     if (error) {

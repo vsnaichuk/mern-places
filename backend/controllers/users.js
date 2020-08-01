@@ -55,7 +55,10 @@ const login = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.json({ message: 'Logged in!' });
+  res.json({
+    user: existingUser.toObject({ getters: true }),
+    message: 'Logged in!',
+  });
 });
 
 exports.getUsers = getUsers;

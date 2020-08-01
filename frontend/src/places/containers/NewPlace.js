@@ -1,9 +1,14 @@
 import useAxios from 'axios-hooks';
-import React from 'react';
-import { config } from '../../shared/api/Api';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { routes } from '../../routes';
+import Api from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
+import Spinner from '../../shared/components/UIElements/Spinner';
+import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
+import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -11,8 +16,11 @@ import {
 import s from './PlaceForm.module.scss';
 
 const NewPlace = () => {
-  const [{ loading, error, data }, createReq] = useAxios(
-    ...config.newPlace(),
+  const { push } = useHistory();
+  const { userId } = useAuthContext();
+  const { addToast } = useToastContext();
+  const [{ loading, error, data }, createPlaceReq] = useAxios(
+    ...Api.config.newPlace(),
   );
 
   const [formState, inputHandler] = useForm(
@@ -35,20 +43,40 @@ const NewPlace = () => {
     false,
   );
 
+  useEffect(() => {
+    if (data && !error) {
+      push(routes.HOME);
+
+      addToast({
+        messageType: 'success',
+        content: data.message,
+      });
+    }
+    if (error) {
+      addToast({
+        messageType: 'danger',
+        content: error.response?.data || 'Something went wrong',
+      });
+    }
+  }, [data, error, addToast]);
+
   const submitPlaceHandler = (e) => {
     e.preventDefault();
 
-    createReq({
+    createPlaceReq({
       data: {
         title: formState.inputs.title.value,
         description: formState.inputs.description.value,
         address: formState.inputs.address.value,
+        creator: userId,
       },
     });
   };
 
   return (
     <form className={s.placeForm} onSubmit={submitPlaceHandler}>
+      {loading && <Spinner asOverlay />}
+
       <Input
         id="title"
         el="input"

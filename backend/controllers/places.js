@@ -76,7 +76,10 @@ const createPlace = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(201).json({ place: createdPlace });
+  res.status(201).json({
+    place: createdPlace,
+    message: 'Successfully added a new place',
+  });
 });
 
 const updatePlace = asyncHandler(async (req, res, next) => {

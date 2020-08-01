@@ -16,14 +16,13 @@ import {
 
 import s from './Auth.module.scss';
 
-const Auth = (props) => {
-  const { config } = Api;
+const Auth = () => {
   const { login } = useAuthContext();
   const { addToast } = useToastContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [{ data, loading, error }, authReq] = useAxios(
-    ...config.auth(isLoginMode),
+    ...Api.config.auth(isLoginMode),
   );
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -71,7 +70,7 @@ const Auth = (props) => {
 
   useEffect(() => {
     if (data && !error) {
-      login();
+      login(data.user.id);
 
       addToast({
         messageType: 'success',
