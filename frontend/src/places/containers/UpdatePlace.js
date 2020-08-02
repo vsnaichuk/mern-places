@@ -1,65 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import useAxios from 'axios-hooks';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { apiConfig } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
+import Spinner from '../../shared/components/UIElements/Spinner';
 import { useForm } from '../../shared/hooks/formHook';
+import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from '../../shared/util/validators';
 import s from './PlaceForm.module.scss';
 
-const DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'Museum of Contemporary Art Australia',
-    description:
-      'The Museum of Contemporary Art Australia (abbreviated MCA), located in George Street, Sydney, is an Australian museum solely dedicated to exhibiting, interpreting and collecting contemporary art, both from across Australia and around the world.',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/MCA_Sydney.jpg/800px-MCA_Sydney.jpg',
-    address: '140 George St, The Rocks NSW 2000, Australia',
-    location: {
-      lat: -33.8599358,
-      lng: 151.2090295,
-    },
-    creator: 'u1',
-  },
-  {
-    id: 'p2',
-    title: 'Maidan Nezalezhnosti',
-    description:
-      "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
-    address: 'Kyiv 02000',
-    location: {
-      lat: 50.450555,
-      lng: 30.5210808,
-    },
-    creator: 'u2',
-  },
-  {
-    id: 'p3',
-    title: 'Maidan Nezalezhnosti',
-    description:
-      "Maidan Nezalezhnosti is the central square of Kyiv, the capital city of Ukraine. One of the city's main squares, it is located on Khreshchatyk Street in the Shevchenko Raion",
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg',
-    address: 'Kyiv 02000',
-    location: {
-      lat: 50.450555,
-      lng: 30.5210808,
-    },
-    creator: 'u1',
-  },
-];
+const UpdatePlace = () => {
+  const { getPlaceById, updatePlace } = apiConfig;
+  const { placeId: id } = useParams();
+  const { addToast } = useToastContext();
 
-const UpdatePlace = (props) => {
-  const { placeId } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [
+    { data: getData, loading: getLoading, error: getError },
+  ] = useAxios(getPlaceById(id));
+  const [
+    { data: updData, loading: updLoading, error: updError },
+    updPlaceReq,
+  ] = useAxios(...updatePlace(id));
 
-  const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler] = useForm(
     {
       title: {
         value: '',
@@ -74,36 +42,44 @@ const UpdatePlace = (props) => {
     false,
   );
 
-  const identifiedPlace = DUMMY_PLACES.find(
-    (place) => place.id === placeId,
-  );
-
   useEffect(() => {
-    if (identifiedPlace) {
-      setFormData(
-        {
-          title: {
-            value: identifiedPlace.title,
-            isValid: true,
-          },
-
-          description: {
-            value: identifiedPlace.description,
-            isValid: true,
-          },
-        },
-        true,
-      );
+    if (updData && !updError) {
+      addToast({
+        messageType: 'success',
+        content: updData.message,
+      });
     }
+    if (getError || updError) {
+      addToast({
+        messageType: 'danger',
+        content:
+          getError.response?.data ||
+          updError.response?.data ||
+          'Something went wrong',
+      });
+    }
+  }, [updData, getError, updError, addToast]);
 
-    setIsLoading(false);
-  }, [setFormData, identifiedPlace]);
+  const submitUpdateHandler = (e) => {
+    e.preventDefault();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+    updPlaceReq({
+      data: {
+        title: formState.inputs.title.value,
+        description: formState.inputs.description.value,
+      },
+    });
+  };
+
+  if (getLoading && !getData) {
+    return (
+      <div className="center">
+        <Spinner />
+      </div>
+    );
   }
 
-  if (!identifiedPlace) {
+  if (!getData && !getError) {
     return (
       <div className="center">
         <Card>
@@ -113,11 +89,10 @@ const UpdatePlace = (props) => {
     );
   }
 
-  const { inputs } = formState;
-
   return (
-    <form className={s.placeForm} onSubmit={() => {}}>
-      {/*// TODO: Add submit handler*/}
+    <form className={s.placeForm} onSubmit={submitUpdateHandler}>
+      {updLoading && <Spinner asOverlay />}
+
       <Input
         id="title"
         el="input"
@@ -126,8 +101,8 @@ const UpdatePlace = (props) => {
         errorText="Please enter a valid name."
         validators={[VALIDATOR_REQUIRE()]}
         onInput={inputHandler}
-        initValue={inputs.title.value}
-        initValid={inputs.title.isValid}
+        initValue={getData.place.title}
+        initValid={true}
       />
 
       <Input
@@ -137,11 +112,11 @@ const UpdatePlace = (props) => {
         errorText="Please enter a valid description (at least 5 characters)."
         validators={[VALIDATOR_MINLENGTH(5)]}
         onInput={inputHandler}
-        initValue={inputs.description.value}
-        initValid={inputs.description.isValid}
+        initValue={getData.place.description}
+        initValid={true}
       />
 
-      <Button size="big" type="submit" disabled={true}>
+      <Button size="big" type="submit" disabled={!formState.isValid}>
         UPDATE PLACE
       </Button>
     </form>

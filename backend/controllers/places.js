@@ -102,6 +102,7 @@ const updatePlace = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     place: place.toObject({ getters: true }),
+    message: 'Successfully updated',
   });
 });
 

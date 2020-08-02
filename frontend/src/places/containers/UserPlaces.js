@@ -10,7 +10,7 @@ const UserPlaces = () => {
   const { addToast } = useToastContext();
   const { userId: id } = useParams();
   const [{ data, loading, error }] = useAxios(
-    apiConfig.placesByUserId(id),
+    apiConfig.getPlacesById(id),
   );
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const UserPlaces = () => {
         content: error.response?.data || 'Something went wrong',
       });
     }
-  }, [error, addToast]);
+  }, [data, error, addToast]);
 
   if (loading) {
     return (

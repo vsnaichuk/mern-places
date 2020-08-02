@@ -1,12 +1,16 @@
-import React from 'react';
+import useAxios from 'axios-hooks';
+import React, { useEffect } from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
+import { apiConfig } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
+import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
 import { useModal } from '../../shared/hooks/modalHook';
+import { useToastContext } from '../../shared/hooks/toastHook';
 import s from './PlaceItem.module.scss';
 
 const PlaceItem = ({
@@ -21,14 +25,36 @@ const PlaceItem = ({
   const { isLoggedIn } = useAuthContext();
   const [showMap, toggleMap] = useModal(false);
   const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
+  const { addToast } = useToastContext();
+  const [{ data, loading, error }, deletePlaceReq] = useAxios(
+    ...apiConfig.deletePlace(id),
+  );
+
+  useEffect(() => {
+    if (data && !error) {
+      addToast({
+        messageType: 'success',
+        content: data.message,
+      });
+    }
+    if (error) {
+      addToast({
+        messageType: 'danger',
+        content: error.response?.data || 'Something went wrong',
+      });
+    }
+  }, [data, error, addToast]);
 
   const confirmDeletePlace = () => {
     toggleDeleteWarning();
-    console.log('Deleting...'); // TODO: send delete to backend
+
+    deletePlaceReq();
   };
 
   return (
     <>
+      {loading && <Spinner asOverlay />}
+
       <Modal
         show={showMap}
         onCancel={toggleMap}

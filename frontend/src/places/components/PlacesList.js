@@ -1,7 +1,7 @@
 import React from 'react';
+import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
-import Button from '../../shared/components/FormElements/Button';
 import s from './PlacesList.module.scss';
 
 const PlacesList = ({ items }) => {
@@ -28,7 +28,7 @@ const PlacesList = ({ items }) => {
             id={place.id}
             title={place.title}
             descr={place.description}
-            image={place.imageUrl}
+            image={place.image}
             address={place.address}
             coordinates={place.location}
             creatorId={place.creator}
