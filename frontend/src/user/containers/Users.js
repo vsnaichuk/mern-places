@@ -1,13 +1,13 @@
 import useAxios from 'axios-hooks';
 import React, { useEffect } from 'react';
-import Api from '../../shared/api';
+import { apiUrl } from '../../shared/api';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
   const { addToast } = useToastContext();
-  const [{ data, loading, error }] = useAxios(Api.urls.USERS);
+  const [{ data, loading, error }] = useAxios(apiUrl.USERS);
 
   useEffect(() => {
     if (error) {

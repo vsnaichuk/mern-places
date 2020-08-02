@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 import React, { useState, useEffect } from 'react';
-import Api from '../../shared/api';
+import { apiConfig } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
@@ -22,7 +22,7 @@ const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [{ data, loading, error }, authReq] = useAxios(
-    ...Api.config.auth(isLoginMode),
+    ...apiConfig.auth(isLoginMode),
   );
 
   const [formState, inputHandler, setFormData] = useForm(

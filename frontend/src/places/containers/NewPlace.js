@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../routes';
-import Api from '../../shared/api';
+import { apiConfig } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Spinner from '../../shared/components/UIElements/Spinner';
@@ -20,7 +20,7 @@ const NewPlace = () => {
   const { userId } = useAuthContext();
   const { addToast } = useToastContext();
   const [{ loading, error, data }, createPlaceReq] = useAxios(
-    ...Api.config.newPlace(),
+    ...apiConfig.newPlace(),
   );
 
   const [formState, inputHandler] = useForm(
