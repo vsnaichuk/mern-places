@@ -20,12 +20,13 @@ const PlaceItem = ({
   image,
   address,
   coordinates,
+  creatorId,
   onDelete,
 }) => {
-  const { isLoggedIn } = useAuthContext();
   const [showMap, toggleMap] = useModal(false);
   const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
   const { addToast } = useToastContext();
+  const { userId } = useAuthContext();
   const [{ data, loading, error }, deletePlaceReq] = useAxios(
     ...apiConfig.deletePlace(id),
   );
@@ -108,7 +109,7 @@ const PlaceItem = ({
               VIEW ON MAP
             </Button>
 
-            {isLoggedIn && (
+            {creatorId === userId && (
               <>
                 <Button
                   to={generatePath(routes.EDIT_PLACE, {
