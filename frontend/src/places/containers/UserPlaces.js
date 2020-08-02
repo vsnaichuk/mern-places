@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiConfig } from '../../shared/api';
 import Spinner from '../../shared/components/UIElements/Spinner';
@@ -8,12 +8,16 @@ import PlacesList from '../components/PlacesList';
 
 const UserPlaces = () => {
   const { addToast } = useToastContext();
+  const [places, setPlaces] = useState(null);
   const { userId: id } = useParams();
   const [{ data, loading, error }] = useAxios(
     apiConfig.getPlacesById(id),
   );
 
   useEffect(() => {
+    if (data?.places) {
+      setPlaces(data.places);
+    }
     if (error) {
       addToast({
         messageType: 'danger',
@@ -30,11 +34,19 @@ const UserPlaces = () => {
     );
   }
 
-  if (!data?.places) {
+  if (!places) {
     return null;
   }
 
-  return <PlacesList items={data.places} />;
+  const deletePlaceHandler = (placeId) => {
+    setPlaces((prevPlaces) =>
+      prevPlaces.filter((p) => p.id !== placeId),
+    );
+  };
+
+  return (
+    <PlacesList items={places} onDeletePlace={deletePlaceHandler} />
+  );
 };
 
 export default UserPlaces;

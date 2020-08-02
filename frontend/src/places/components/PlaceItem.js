@@ -20,7 +20,7 @@ const PlaceItem = ({
   image,
   address,
   coordinates,
-  creatorId,
+  onDelete,
 }) => {
   const { isLoggedIn } = useAuthContext();
   const [showMap, toggleMap] = useModal(false);
@@ -32,6 +32,8 @@ const PlaceItem = ({
 
   useEffect(() => {
     if (data && !error) {
+      onDelete(id);
+
       addToast({
         messageType: 'success',
         content: data.message,

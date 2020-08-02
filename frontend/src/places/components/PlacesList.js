@@ -4,7 +4,7 @@ import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
 import s from './PlacesList.module.scss';
 
-const PlacesList = ({ items }) => {
+const PlacesList = ({ items, ...props }) => {
   if (items.length === 0) {
     return (
       <div className={`${s.placesList} center`}>
@@ -32,6 +32,7 @@ const PlacesList = ({ items }) => {
             address={place.address}
             coordinates={place.location}
             creatorId={place.creator}
+            onDelete={props.onDeletePlace}
           />
         );
       })}
