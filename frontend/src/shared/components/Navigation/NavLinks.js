@@ -1,11 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, generatePath } from 'react-router-dom';
 import { routes } from '../../../routes';
 import { useAuthContext } from '../../hooks/authHook';
 import Button from '../FormElements/Button';
 import s from './NavLinks.module.scss';
 
 const NavLinks = () => {
+  const { userId } = useAuthContext();
   const { isLoggedIn, logout } = useAuthContext();
 
   return (
@@ -18,7 +19,10 @@ const NavLinks = () => {
 
       {isLoggedIn && (
         <li>
-          <NavLink to={routes.USER_PLACES} activeClassName={s.active}>
+          <NavLink
+            to={generatePath(routes.USER_PLACES, { userId })}
+            activeClassName={s.active}
+          >
             MY PLACES
           </NavLink>
         </li>
