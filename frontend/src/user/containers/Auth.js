@@ -1,12 +1,12 @@
-import useAxios from 'axios-hooks';
 import React, { useState, useEffect } from 'react';
-import { apiConfig } from '../../shared/api';
+import { apiUrl } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
+import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_MINLENGTH,
@@ -21,9 +21,8 @@ const Auth = () => {
   const { addToast } = useToastContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  const [{ data, loading, error }, authReq] = useAxios(
-    ...apiConfig.auth(isLoginMode),
-  );
+  console.log(isLoginMode);
+  const [sendAuth, data, isLoading, error] = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -77,31 +76,21 @@ const Auth = () => {
         content: data.message,
       });
     }
-    if (error) {
-      addToast({
-        messageType: 'danger',
-        content: error.response?.data || 'Something went wrong',
-      });
-    }
   }, [data, error, addToast]);
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
 
     if (isLoginMode) {
-      authReq({
-        data: {
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        },
+      sendAuth(apiUrl.LOGIN, 'POST', {
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
       });
     } else {
-      authReq({
-        data: {
-          name: formState.inputs.name.value,
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        },
+      sendAuth(apiUrl.SIGN_UP, 'POST', {
+        name: formState.inputs.name.value,
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
       });
     }
   };
@@ -109,7 +98,7 @@ const Auth = () => {
   return (
     <>
       <Card className={s.auth}>
-        {loading && <Spinner asOverlay />}
+        {isLoading && <Spinner asOverlay />}
 
         <h2 className={s.authTitle}>
           {isLoginMode ? 'LOGIN' : 'REGISTER'}

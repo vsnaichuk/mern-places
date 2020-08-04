@@ -1,24 +1,20 @@
-import useAxios from 'axios-hooks';
 import React, { useEffect } from 'react';
 import { apiUrl } from '../../shared/api';
 import Spinner from '../../shared/components/UIElements/Spinner';
-import { useToastContext } from '../../shared/hooks/toastHook';
+import { useHttpClient } from '../../shared/hooks/httpHook';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
-  const { addToast } = useToastContext();
-  const [{ data, loading, error }] = useAxios(apiUrl.USERS);
+  const [sendRequest, data, isLoading] = useHttpClient();
 
   useEffect(() => {
-    if (error) {
-      addToast({
-        messageType: 'danger',
-        content: error.response?.data || 'Something went wrong',
-      });
-    }
-  }, [error, addToast]);
+    const fetchUsers = () => {
+      sendRequest(apiUrl.USERS);
+    };
+    fetchUsers();
+  }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="center">
         <Spinner />

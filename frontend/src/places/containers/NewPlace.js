@@ -1,13 +1,13 @@
-import useAxios from 'axios-hooks';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../routes';
-import { apiConfig } from '../../shared/api';
+import { apiUrl } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
+import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_REQUIRE,
@@ -19,9 +19,7 @@ const NewPlace = () => {
   const { push } = useHistory();
   const { userId } = useAuthContext();
   const { addToast } = useToastContext();
-  const [{ loading, error, data }, createPlaceReq] = useAxios(
-    ...apiConfig.newPlace(),
-  );
+  const [sendCreatePlace, data, isLoading, error] = useHttpClient();
 
   const [formState, inputHandler] = useForm(
     {
@@ -52,30 +50,22 @@ const NewPlace = () => {
         content: data.message,
       });
     }
-    if (error) {
-      addToast({
-        messageType: 'danger',
-        content: error.response?.data || 'Something went wrong',
-      });
-    }
   }, [data, error, addToast]);
 
   const submitPlaceHandler = (e) => {
     e.preventDefault();
 
-    createPlaceReq({
-      data: {
-        title: formState.inputs.title.value,
-        description: formState.inputs.description.value,
-        address: formState.inputs.address.value,
-        creator: userId,
-      },
+    sendCreatePlace(apiUrl.PLACES, 'POST', {
+      title: formState.inputs.title.value,
+      description: formState.inputs.description.value,
+      address: formState.inputs.address.value,
+      creator: userId,
     });
   };
 
   return (
     <form className={s.placeForm} onSubmit={submitPlaceHandler}>
-      {loading && <Spinner asOverlay />}
+      {isLoading && <Spinner asOverlay />}
 
       <Input
         id="title"

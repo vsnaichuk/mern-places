@@ -1,8 +1,8 @@
-import useAxios from 'axios-hooks';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiConfig } from '../../shared/api';
+import { apiUrl } from '../../shared/api';
 import Spinner from '../../shared/components/UIElements/Spinner';
+import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import PlacesList from '../components/PlacesList';
 
@@ -10,23 +10,22 @@ const UserPlaces = () => {
   const { addToast } = useToastContext();
   const [places, setPlaces] = useState(null);
   const { userId: id } = useParams();
-  const [{ data, loading, error }] = useAxios(
-    apiConfig.getPlacesById(id),
-  );
+  const [sendRequest, data, isLoading, error] = useHttpClient();
 
   useEffect(() => {
-    if (data?.places) {
+    const fetchPlaces = () => {
+      sendRequest(`${apiUrl.PLACES}/${id}`);
+    };
+    fetchPlaces();
+  }, [sendRequest]);
+
+  useEffect(() => {
+    if (data && !error) {
       setPlaces(data.places);
-    }
-    if (error) {
-      addToast({
-        messageType: 'danger',
-        content: error.response?.data || 'Something went wrong',
-      });
     }
   }, [data, error, addToast]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="center">
         <Spinner />

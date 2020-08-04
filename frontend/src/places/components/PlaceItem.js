@@ -1,14 +1,14 @@
-import useAxios from 'axios-hooks';
 import React, { useEffect } from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
-import { apiConfig } from '../../shared/api';
+import { apiUrl } from '../../shared/api';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
+import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useModal } from '../../shared/hooks/modalHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import s from './PlaceItem.module.scss';
@@ -27,9 +27,7 @@ const PlaceItem = ({
   const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
   const { addToast } = useToastContext();
   const { userId } = useAuthContext();
-  const [{ data, loading, error }, deletePlaceReq] = useAxios(
-    ...apiConfig.deletePlace(id),
-  );
+  const [sendDeletePlace, data, isLoading, error] = useHttpClient();
 
   useEffect(() => {
     if (data && !error) {
@@ -40,23 +38,17 @@ const PlaceItem = ({
         content: data.message,
       });
     }
-    if (error) {
-      addToast({
-        messageType: 'danger',
-        content: error.response?.data || 'Something went wrong',
-      });
-    }
   }, [data, error, addToast]);
 
   const confirmDeletePlace = () => {
     toggleDeleteWarning();
 
-    deletePlaceReq();
+    sendDeletePlace(`${apiUrl.PLACES}/${id}`, 'DELETE');
   };
 
   return (
     <>
-      {loading && <Spinner asOverlay />}
+      {isLoading && <Spinner asOverlay />}
 
       <Modal
         show={showMap}
