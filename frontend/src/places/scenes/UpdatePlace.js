@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiUrl } from '../../shared/api';
+import {
+  usePlaceById,
+  useUpdatePlace,
+} from '../../shared/api/hooks/placesHook';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useForm } from '../../shared/hooks/formHook';
-import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_REQUIRE,
@@ -19,8 +21,18 @@ const UpdatePlace = () => {
   const { addToast } = useToastContext();
   const [loadedPlace, setLoadedPlace] = useState();
 
-  const [sendGet, getData, getLoading, getError] = useHttpClient();
-  const [sendUpdate, updData, updLoading, updError] = useHttpClient();
+  const [
+    getPlaceData,
+    getLoading,
+    getError,
+    getErrorStatus,
+  ] = usePlaceById(id);
+  const [
+    sendUpdatePlace,
+    updPlaceData,
+    updLoading,
+    updError,
+  ] = useUpdatePlace();
 
   const [formState, inputHandler] = useForm(
     {
@@ -38,31 +50,27 @@ const UpdatePlace = () => {
   );
 
   useEffect(() => {
-    sendGet(`${apiUrl.USER_PLACES}/${id}`);
-  }, [sendGet]);
-
-  useEffect(() => {
-    if (getData && !getError) {
-      setLoadedPlace(getData.place);
+    if (getPlaceData && !getError) {
+      setLoadedPlace(getPlaceData.place);
     }
-    if (updData && !updError) {
-      addToast({
-        messageType: 'success',
-        content: updData.message,
-      });
+    if (updPlaceData && !updError) {
+      addToast('success', updPlaceData.message);
     }
-  }, [getData, updData, getError, updError, addToast]);
+  }, [getPlaceData, updPlaceData, getError, updError, addToast]);
 
-  const submitUpdateHandler = (e) => {
+  const submitUpdateHandler = async (e) => {
     e.preventDefault();
 
-    sendUpdate(`${apiUrl.PLACES}/${id}`, 'PATCH', {
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
+    await sendUpdatePlace({
+      id,
+      body: {
+        title: formState.inputs.title.value,
+        description: formState.inputs.description.value,
+      },
     });
   };
 
-  if (getError?.response.status === 404) {
+  if (getErrorStatus === 404) {
     return (
       <div className="center">
         <Card>
@@ -84,7 +92,7 @@ const UpdatePlace = () => {
     <>
       {loadedPlace && (
         <form className={s.placeForm} onSubmit={submitUpdateHandler}>
-          {updLoading && <Spinner asOverlay />}
+          {(updLoading || getLoading) && <Spinner asOverlay />}
 
           <Input
             id="title"

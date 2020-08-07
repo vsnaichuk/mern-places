@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiUrl } from '../../shared/api';
+import { usePlacesById } from '../../shared/api/hooks/placesHook';
 import Spinner from '../../shared/components/UIElements/Spinner';
-import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import PlacesList from '../components/PlacesList';
 
 const UserPlaces = () => {
-  const { addToast } = useToastContext();
   const [places, setPlaces] = useState(null);
-  const { userId: id } = useParams();
-  const [sendRequest, data, isLoading, error] = useHttpClient();
-
-  useEffect(() => {
-    const fetchPlaces = () => {
-      sendRequest(`${apiUrl.PLACES}/${id}`);
-    };
-    fetchPlaces();
-  }, [sendRequest]);
+  const { addToast } = useToastContext();
+  const { userId } = useParams();
+  const [data, isLoading, error, errMessage] = usePlacesById(userId);
 
   useEffect(() => {
     if (data && !error) {
       setPlaces(data.places);
     }
-  }, [data, error, addToast]);
+    if (error) {
+      addToast('danger', errMessage || 'Something went wrong');
+    }
+  }, [data, error]);
 
   if (isLoading) {
     return (
@@ -37,7 +32,7 @@ const UserPlaces = () => {
     return null;
   }
 
-  const deletePlaceHandler = (placeId) => {
+  const deletePlaceHandler = async (placeId) => {
     setPlaces((prevPlaces) =>
       prevPlaces.filter((p) => p.id !== placeId),
     );

@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { generatePath } from 'react-router-dom';
 import { routes } from '../../routes';
-import { apiUrl } from '../../shared/api';
+import { useDeletePlace } from '../../shared/api/hooks/placesHook';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
-import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useModal } from '../../shared/hooks/modalHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import s from './PlaceItem.module.scss';
@@ -25,25 +24,31 @@ const PlaceItem = ({
 }) => {
   const [showMap, toggleMap] = useModal(false);
   const [showDeleteWarning, toggleDeleteWarning] = useModal(false);
-  const { addToast } = useToastContext();
   const { userId } = useAuthContext();
-  const [sendDeletePlace, data, isLoading, error] = useHttpClient();
+  const { addToast } = useToastContext();
+  const [
+    sendDeletePlace,
+    data,
+    isLoading,
+    isSuccess,
+    error,
+    errMessage,
+  ] = useDeletePlace();
 
   useEffect(() => {
-    if (data && !error) {
+    if (isSuccess) {
       onDelete(id);
-
-      addToast({
-        messageType: 'success',
-        content: data.message,
-      });
+      addToast('success', data.message);
     }
-  }, [data, error, addToast]);
+    if (error) {
+      addToast('danger', errMessage || 'Something went wrong');
+    }
+  }, [isSuccess, error]);
 
-  const confirmDeletePlace = () => {
+  const confirmDeletePlace = async () => {
     toggleDeleteWarning();
 
-    sendDeletePlace(`${apiUrl.PLACES}/${id}`, 'DELETE');
+    await sendDeletePlace(id);
   };
 
   return (

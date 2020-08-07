@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import NewPlace from './places/containers/NewPlace';
-import UpdatePlace from './places/containers/UpdatePlace';
-import UserPlaces from './places/containers/UserPlaces';
+import NewPlace from './places/scenes/NewPlace';
+import UpdatePlace from './places/scenes/UpdatePlace';
+import UserPlaces from './places/scenes/UserPlaces';
 import PrivateRoute from './shared/components/Navigation/PrivateRoute';
 import { useAuthContext } from './shared/hooks/authHook';
-import Auth from './user/containers/Auth';
-import Users from './user/containers/Users';
+import Auth from './user/scenes/Auth';
+import Users from './user/scenes/Users';
 
 export const routes = {
   HOME: '/',

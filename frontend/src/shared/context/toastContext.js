@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
-import Toast from '../components/UIElements/Toast';
+import ToastList from '../components/UIElements/Toast';
 
 export const ToastContext = createContext({
   toastsState: [],
@@ -31,7 +31,7 @@ const toastReducer = (state, action) => {
 export const ToastProvider = ({ children }) => {
   const [toastsState, dispatch] = useReducer(toastReducer, []);
 
-  const addToast = useCallback(({ messageType, content }) => {
+  const addToast = useCallback((messageType, content) => {
     dispatch({ type: 'ADD', messageType, content });
   }, []);
 
@@ -48,7 +48,7 @@ export const ToastProvider = ({ children }) => {
     >
       {children}
 
-      <Toast {...{ toastsState, removeToast }} />
+      <ToastList {...{ toastsState, removeToast }} />
     </ToastContext.Provider>
   );
 };

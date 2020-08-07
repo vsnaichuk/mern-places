@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { apiUrl } from '../../shared/api';
+import { useUserAuth } from '../../shared/api/hooks/authHook';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
-import { useHttpClient } from '../../shared/hooks/httpHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import {
   VALIDATOR_MINLENGTH,
@@ -17,12 +16,18 @@ import {
 import s from './Auth.module.scss';
 
 const Auth = () => {
-  const { login } = useAuthContext();
   const { addToast } = useToastContext();
+  const { login } = useAuthContext();
   const [isLoginMode, setIsLoginMode] = useState(true);
 
-  console.log(isLoginMode);
-  const [sendAuth, data, isLoading, error] = useHttpClient();
+  const [
+    sendAuth,
+    data,
+    isLoading,
+    isSuccess,
+    error,
+    errMessage,
+  ] = useUserAuth();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -38,7 +43,6 @@ const Auth = () => {
     },
     false,
   );
-
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
@@ -63,34 +67,37 @@ const Auth = () => {
         false,
       );
     }
-
     setIsLoginMode((prev) => !prev);
   };
 
   useEffect(() => {
-    if (data && !error) {
+    if (isSuccess) {
       login(data.user.id);
-
-      addToast({
-        messageType: 'success',
-        content: data.message,
-      });
+      addToast('success', data.message);
     }
-  }, [data, error, addToast]);
+    if (error) {
+      addToast('danger', errMessage || 'Something went wrong');
+    }
+  }, [isSuccess, error, data]);
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
 
     if (isLoginMode) {
-      sendAuth(apiUrl.LOGIN, 'POST', {
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
+      await sendAuth({
+        login: true,
+        body: {
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        },
       });
     } else {
-      sendAuth(apiUrl.SIGN_UP, 'POST', {
-        name: formState.inputs.name.value,
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
+      await sendAuth({
+        body: {
+          name: formState.inputs.name.value,
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        },
       });
     }
   };
