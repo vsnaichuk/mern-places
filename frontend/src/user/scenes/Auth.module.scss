@@ -12,6 +12,17 @@
     text-align: center;
     text-transform: uppercase;
   }
+
+  .authRow {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -2.5rem;
+  }
+
+  .authNameField {
+    width: 55%;
+    margin: 2.5rem 2.5rem 0 0;
+  }
 }
 
 .switchBox {
@@ -29,6 +40,19 @@
 
   h4 {
     margin: 5px
+  }
+}
+
+@media (max-width: 992px) {
+  .auth {
+    .authRow {
+      justify-content: center;
+    }
+
+    .authNameField {
+      width: 100%;
+      margin: 2.5rem 0 0 0;
+    }
   }
 }
 

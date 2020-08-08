@@ -33,6 +33,8 @@ const Input = ({
   onInput,
   initValue,
   initValid,
+  inputClass,
+  className,
   ...inputProps
 }) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
@@ -83,7 +85,7 @@ const Input = ({
 
   return (
     <div
-      className={cx(s.formControl, {
+      className={cx(s.formControl, [className], {
         [s.formControlInvalid]:
           !inputState.isValid && inputState.isTouched,
       })}

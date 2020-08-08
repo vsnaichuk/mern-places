@@ -1,0 +1,30 @@
+.formControl {
+  margin: 2.5rem 0;
+}
+
+.imageUpload {
+  flex-direction: column;
+}
+
+.center {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.imagePreview {
+  width: 13rem;
+  height: 13rem;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

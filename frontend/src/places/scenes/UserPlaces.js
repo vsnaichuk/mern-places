@@ -6,7 +6,7 @@ import { useToastContext } from '../../shared/hooks/toastHook';
 import PlacesList from '../components/PlacesList';
 
 const UserPlaces = () => {
-  const [places, setPlaces] = useState(null);
+  const [places, setPlaces] = useState([]);
   const { addToast } = useToastContext();
   const { userId } = useParams();
   const [data, isLoading, error, errMessage] = usePlacesById(userId);
@@ -26,10 +26,6 @@ const UserPlaces = () => {
         <Spinner />
       </div>
     );
-  }
-
-  if (!places) {
-    return null;
   }
 
   const deletePlaceHandler = async (placeId) => {

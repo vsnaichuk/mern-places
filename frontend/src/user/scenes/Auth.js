@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUserAuth } from '../../shared/api/hooks/authHook';
 import Button from '../../shared/components/FormElements/Button';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import Spinner from '../../shared/components/UIElements/Spinner';
@@ -49,6 +50,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined,
         },
 
         formState.inputs.email.isValid &&
@@ -60,6 +62,10 @@ const Auth = () => {
           ...formState.inputs,
           name: {
             value: '',
+            isValid: false,
+          },
+          image: {
+            value: null,
             isValid: false,
           },
         },
@@ -82,6 +88,8 @@ const Auth = () => {
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
+
+    console.log(formState.inputs);
 
     if (isLoginMode) {
       await sendAuth({
@@ -115,15 +123,20 @@ const Auth = () => {
 
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
-            <Input
-              id="name"
-              el="input"
-              type="text"
-              label="Name"
-              errorText="Please enter a valid name."
-              validators={[VALIDATOR_REQUIRE()]}
-              onInput={inputHandler}
-            />
+            <div className={s.authRow}>
+              <Input
+                id="name"
+                el="input"
+                type="text"
+                label="Name"
+                className={s.authNameField}
+                errorText="Please enter a valid name."
+                validators={[VALIDATOR_REQUIRE()]}
+                onInput={inputHandler}
+              />
+
+              <ImageUpload id="image" onInput={inputHandler} center />
+            </div>
           )}
 
           <Input

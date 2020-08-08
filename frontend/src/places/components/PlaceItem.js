@@ -47,7 +47,6 @@ const PlaceItem = ({
 
   const confirmDeletePlace = async () => {
     toggleDeleteWarning();
-
     await sendDeletePlace(id);
   };
 
