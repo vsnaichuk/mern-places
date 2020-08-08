@@ -31,7 +31,7 @@ const signUp = asyncHandler(async (req, res, next) => {
     name,
     email,
     password, // TODO: Encrypt User password
-    image: 'https://randomuser.me/api/portraits/men/1.jpg', // TODO: Implement file upload
+    image: req.file.path,
     places: [],
   });
 

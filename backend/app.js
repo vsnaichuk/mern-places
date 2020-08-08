@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -11,6 +13,11 @@ const port = 5000;
 
 app.use(bodyParser.json());
 
+app.use(
+  '/uploads/images',
+  express.static(path.join('uploads', 'images')),
+);
+
 app.use('/api/places', placesRoutes);
 
 app.use('/api/users', usersRoutes);
@@ -19,14 +26,20 @@ app.use((req, res, next) => {
   throw new HttpError('Could not find this route!', 404);
 });
 
-app.use((e, req, res, next) => {
-  if (res.headersSent) {
-    return next(e);
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
   }
 
-  console.log(e);
-  res.status(e.code || 500);
-  res.json(e.message || 'An unknown error occurred!');
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  console.log(error);
+  res.status(error.code || 500);
+  res.json(error.message || 'An unknown error occurred!');
 });
 
 mongoose

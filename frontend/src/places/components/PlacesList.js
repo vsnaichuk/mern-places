@@ -1,4 +1,5 @@
 import React from 'react';
+import { routes } from '../../routes';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
@@ -13,7 +14,7 @@ const PlacesList = ({ items, ...props }) => {
             No places found. Maybe create one?
           </h2>
 
-          <Button>Share Place</Button>
+          <Button to={routes.NEW_PLACE}>Share Place</Button>
         </Card>
       </div>
     );

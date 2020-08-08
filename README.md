@@ -1,29 +1,27 @@
 # MERN stack. YourPlaces app
 
+This is a MERN-stack based web-app where you can view and share the places you and others have visited.
+
 ## Installing
+* Clone or download this project
 
-* Clone this project (git clone ...)
-* Install npm dependencies: `npm install`
+```terminal
+$ git clone ...
+```
+* You need client and server runs concurrently in different terminal session, in order to make them talk to each other
 
-## Available Scripts
+## Client-side usage(PORT: 3000)
 
-In the project directory, you can run:
+```terminal
+$ cd frontend   // go to client folder
+$ npm install       // install npm pacakges
+$ npm run start // run it locally
+```
 
-### `npm run start`
+## Server-side usage(PORT: 5000)
 
-Runs the app in the development mode.<br>
-Open http://localhost:3000 to view it in the browser
-
-### `npm run test`
-
-Launches the test runner in the interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from project.
+```terminal
+$ cd backend   // go to server folder
+$ npm install       // install npm pacakges
+$ npm run start // run it locally
+```
