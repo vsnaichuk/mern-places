@@ -89,7 +89,12 @@ const Auth = () => {
   const authSubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(formState.inputs);
+    const formData = new FormData();
+
+    formData.append('name', formState.inputs.name.value);
+    formData.append('email', formState.inputs.email.value);
+    formData.append('password', formState.inputs.password.value);
+    formData.append('image', formState.inputs.image.value);
 
     if (isLoginMode) {
       await sendAuth({
@@ -101,11 +106,7 @@ const Auth = () => {
       });
     } else {
       await sendAuth({
-        body: {
-          name: formState.inputs.name.value,
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        },
+        body: formData,
       });
     }
   };
