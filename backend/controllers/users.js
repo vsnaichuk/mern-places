@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const asyncHandler = require('../util/async-handler');
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
@@ -27,18 +29,35 @@ const signUp = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const hashedPassword = await bcrypt.hash(password, 12);
+
   const createdUser = new User({
     name,
     email,
-    password, // TODO: Encrypt User password
+    password: hashedPassword,
     image: req.file.path,
     places: [],
   });
 
   await createdUser.save();
 
+  const token = jwt.sign(
+    {
+      userId: createdUser.id,
+      email: createdUser.email,
+    },
+    'super_secret_dont_share',
+    {
+      expiresIn: '1h',
+    },
+  );
+
   res.status(201).json({
-    user: createdUser.toObject({ getters: true }),
+    user: {
+      id: createdUser.id,
+      email: createdUser.email,
+      token,
+    },
     message: 'Account has been successfully created.',
   });
 });
@@ -48,15 +67,42 @@ const login = asyncHandler(async (req, res, next) => {
 
   const existingUser = await User.findOne({ email: email });
 
-  if (!existingUser || existingUser.password !== password) {
+  if (!existingUser) {
     throw new HttpError(
-      'Could not identify user, credentials seem to be wrong.',
+      'Could not log you in, credentials seem to be wrong.',
       401,
     );
   }
 
+  const isValidPassword = bcrypt.compare(
+    password,
+    existingUser.password,
+  );
+
+  if (!isValidPassword) {
+    throw new HttpError(
+      'Invalid credentials, could not log you in.',
+      401,
+    );
+  }
+
+  const token = jwt.sign(
+    {
+      userId: existingUser.id,
+      email: existingUser.email,
+    },
+    'super_secret_dont_share',
+    {
+      expiresIn: '1h',
+    },
+  );
+
   res.json({
-    user: existingUser.toObject({ getters: true }),
+    user: {
+      id: existingUser.id,
+      email: existingUser.email,
+      token,
+    },
     message: 'Logged in!',
   });
 });
