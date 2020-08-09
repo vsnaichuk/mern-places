@@ -4,6 +4,7 @@ import { routes } from '../../routes';
 import { useDeletePlace } from '../../shared/api/hooks/placesHook';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
+import Image from '../../shared/components/UIElements/Image';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
 import Spinner from '../../shared/components/UIElements/Spinner';
@@ -91,7 +92,10 @@ const PlaceItem = ({
       <li className={s.placeItem}>
         <Card className={s.placeContent}>
           <div className={s.placeImage}>
-            <img src={`http://localhost:5000/${image}`} alt={title} />
+            <Image
+              src={`http://localhost:5000/${image}`}
+              alt={title}
+            />
           </div>
 
           <div className={s.placeInfo}>

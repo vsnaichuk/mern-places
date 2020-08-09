@@ -10,11 +10,7 @@ const UserItem = ({ id, name, image, placeCount }) => {
     <li className={s.userItem}>
       <Card className={s.userContent}>
         <Link to={generatePath(routes.USER_PLACES, { userId: id })}>
-          <Avatar
-            image={`http://localhost:5000/${image}`}
-            className={s.userImage}
-            alt={name}
-          />
+          <Avatar image={image} className={s.userImage} alt={name} />
 
           <div className={s.userInfo}>
             <h2>Name: {name}</h2>

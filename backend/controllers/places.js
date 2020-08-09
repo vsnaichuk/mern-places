@@ -1,3 +1,4 @@
+const fs = require('fs');
 const mongoose = require('mongoose');
 const asyncHandler = require('../util/async-handler');
 
@@ -117,6 +118,8 @@ const deletePlace = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const imagePath = place.image;
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -134,6 +137,10 @@ const deletePlace = asyncHandler(async (req, res, next) => {
       ),
     );
   }
+
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
 
   res.status(200).json({
     message: 'Successfully deleted',

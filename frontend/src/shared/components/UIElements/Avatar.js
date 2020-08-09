@@ -1,6 +1,7 @@
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
 import s from './Avatar.module.scss';
+import Image from './Image';
 
 const Avatar = ({
   className,
@@ -12,8 +13,9 @@ const Avatar = ({
 }) => {
   return (
     <div className={cx(s.avatar, className)} style={style}>
-      <img
-        src={image}
+      <Image
+        src={`http://localhost:5000/${image}`}
+        type="user"
         alt={alt}
         style={{ width: width, height: width }}
       />
