@@ -4,8 +4,8 @@ const {
   userValidationRules,
   validate,
 } = require('../util/validators');
-const usersControllers = require('../controllers/users');
 const fileUpload = require('../middleware/file-upload');
+const usersControllers = require('../controllers/users');
 
 const router = express.Router();
 

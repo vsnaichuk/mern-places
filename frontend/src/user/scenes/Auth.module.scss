@@ -13,16 +13,16 @@
     text-transform: uppercase;
   }
 
-  .authRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: -2.5rem;
-  }
-
-  .authNameField {
-    width: 55%;
+  .authName {
+    width: 70%;
     margin: 2.5rem 2.5rem 0 0;
   }
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0.5rem -4.5rem 0;
 }
 
 .switchBox {
@@ -43,19 +43,6 @@
   }
 }
 
-@media (max-width: 992px) {
-  .auth {
-    .authRow {
-      justify-content: center;
-    }
-
-    .authNameField {
-      width: 100%;
-      margin: 2.5rem 0 0 0;
-    }
-  }
-}
-
 @media (max-width: 768px) {
   .auth {
     width: 90%;
@@ -64,6 +51,20 @@
 
   .switchBox {
     width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth {
+    .authName {
+      width: 100%;
+      margin: 2.5rem 0 0 0;
+    }
+  }
+
+  .row {
+    justify-content: center;
+    flex-wrap: wrap;
   }
 }
 

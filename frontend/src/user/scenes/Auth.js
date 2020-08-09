@@ -124,19 +124,24 @@ const Auth = () => {
 
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
-            <div className={s.authRow}>
+            <div className={s.row}>
               <Input
                 id="name"
                 el="input"
                 type="text"
                 label="Name"
-                className={s.authNameField}
+                className={s.authName}
                 errorText="Please enter a valid name."
                 validators={[VALIDATOR_REQUIRE()]}
                 onInput={inputHandler}
               />
 
-              <ImageUpload id="image" onInput={inputHandler} center />
+              <ImageUpload
+                id="image"
+                onInput={inputHandler}
+                style={{ width: '13rem' }}
+                center
+              />
             </div>
           )}
 

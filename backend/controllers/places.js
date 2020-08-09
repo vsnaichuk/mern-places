@@ -47,8 +47,7 @@ const createPlace = asyncHandler(async (req, res, next) => {
   const createdPlace = new Place({
     title,
     description,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/b/b9/MaidanNezalezhnosti.jpg', // TODO Implement file upload
+    image: req.file.path,
     address,
     location: coordinates,
     creator,

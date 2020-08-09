@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { routes } from '../../routes';
 import { useCreatePlace } from '../../shared/api/hooks/placesHook';
 import Button from '../../shared/components/FormElements/Button';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Input from '../../shared/components/FormElements/Input';
 import Spinner from '../../shared/components/UIElements/Spinner';
 import { useAuthContext } from '../../shared/hooks/authHook';
@@ -43,6 +44,11 @@ const NewPlace = () => {
         value: '',
         isValid: false,
       },
+
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false,
   );
@@ -57,31 +63,47 @@ const NewPlace = () => {
     }
   }, [isSuccess, error]);
 
-  const submitPlaceHandler = (e) => {
+  const submitPlaceHandler = async (e) => {
     e.preventDefault();
 
-    sendCreatePlace({
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
-      address: formState.inputs.address.value,
-      creator: userId,
-    });
+    const formData = new FormData();
+
+    formData.append('title', formState.inputs.title.value);
+    formData.append(
+      'description',
+      formState.inputs.description.value,
+    );
+    formData.append('address', formState.inputs.address.value);
+    formData.append('creator', userId);
+    formData.append('image', formState.inputs.image.value);
+
+    await sendCreatePlace(formData);
   };
 
   return (
     <form className={s.placeForm} onSubmit={submitPlaceHandler}>
       {isLoading && <Spinner asOverlay />}
 
-      <Input
-        id="title"
-        el="input"
-        type="text"
-        label="Title"
-        placeholder="Type here title"
-        errorText="Please enter a valid name."
-        validators={[VALIDATOR_REQUIRE()]}
-        onInput={inputHandler}
-      />
+      <div className={s.row}>
+        <Input
+          id="title"
+          el="input"
+          type="text"
+          className={s.placeTitle}
+          label="Title"
+          placeholder="Type here title"
+          errorText="Please enter a valid name."
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+        />
+
+        <ImageUpload
+          id="image"
+          onInput={inputHandler}
+          style={{ width: '20rem' }}
+          center
+        />
+      </div>
 
       <Input
         id="description"

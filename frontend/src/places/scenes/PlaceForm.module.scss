@@ -8,3 +8,26 @@
   border-radius: 6px;
   background: #232341;
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -3.5rem;
+}
+
+.placeTitle {
+  width: 67%;
+  margin: 2.5rem 2.5rem 0 0;
+}
+
+@media (max-width: 576px) {
+  .placeTitle {
+    width: 100%;
+    margin: 2.5rem 0 0 0;
+  }
+
+  .row {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

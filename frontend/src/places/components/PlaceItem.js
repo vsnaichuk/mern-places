@@ -91,7 +91,7 @@ const PlaceItem = ({
       <li className={s.placeItem}>
         <Card className={s.placeContent}>
           <div className={s.placeImage}>
-            <img src={image} alt={title} />
+            <img src={`http://localhost:5000/${image}`} alt={title} />
           </div>
 
           <div className={s.placeInfo}>

@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Button from './Button';
 import s from './ImageUpload.module.scss';
 
-const ImageUpload = ({ id, onInput, center }) => {
+const ImageUpload = ({ id, onInput, center, style }) => {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
@@ -45,7 +45,7 @@ const ImageUpload = ({ id, onInput, center }) => {
   };
 
   return (
-    <div className={s.formControl}>
+    <div className={s.formControl} style={style}>
       <input
         id={id}
         ref={fileInputRef}

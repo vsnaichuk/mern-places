@@ -5,6 +5,7 @@ const {
   updatePlaceValidationRules,
   validate,
 } = require('../util/validators');
+const fileUpload = require('../middleware/file-upload');
 const placesControllers = require('../controllers/places');
 
 const router = express.Router();
@@ -15,6 +16,7 @@ router.get('/user/:userId', placesControllers.getPlacesByUserId);
 
 router.post(
   '/',
+  fileUpload.single('image'),
   createPlaceValidationRules(),
   validate,
   placesControllers.createPlace,
