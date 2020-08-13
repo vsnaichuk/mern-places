@@ -14,7 +14,6 @@ const createPlaceValidationRules = () => {
     body('title').not().isEmpty(),
     body('description').isLength({ min: 5 }),
     body('address').not().isEmpty(),
-    body('creator').not().isEmpty(),
   ];
 };
 

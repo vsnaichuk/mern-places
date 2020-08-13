@@ -6,8 +6,7 @@ import Button from '../FormElements/Button';
 import s from './NavLinks.module.scss';
 
 const NavLinks = () => {
-  const { userId } = useAuthContext();
-  const { isLoggedIn, logout } = useAuthContext();
+  const { userId, isLoggedIn, logout } = useAuthContext();
 
   return (
     <ul className={s.navLinks}>

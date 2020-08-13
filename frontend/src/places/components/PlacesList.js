@@ -6,7 +6,7 @@ import PlaceItem from './PlaceItem';
 import s from './PlacesList.module.scss';
 
 const PlacesList = ({ items, ...props }) => {
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
       <div className={`${s.placesList} center`}>
         <Card>
@@ -33,7 +33,7 @@ const PlacesList = ({ items, ...props }) => {
             address={place.address}
             coordinates={place.location}
             creatorId={place.creator}
-            // onDelete={props.onDeletePlace}
+            onDelete={props.onDeletePlace}
           />
         );
       })}

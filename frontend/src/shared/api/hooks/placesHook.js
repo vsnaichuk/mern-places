@@ -82,6 +82,9 @@ export const useDeletePlace = (userId) => {
           return prev.places.filter((p) => p.id !== placeId);
         });
       },
+      onSettled: () => {
+        queryCache.invalidateQueries('userPlaces');
+      },
     },
   );
   let errMessage = error?.response?.data;
