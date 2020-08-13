@@ -11,7 +11,7 @@ const getUsers = cancelableReq(async (_, config) => {
 
 export const useUsers = () => {
   const { isLoading, data, error } = useQuery('usersList', getUsers);
-  let errMessage = error && error.response?.data;
+  let errMessage = error?.response?.data;
 
   return [data, isLoading, error, errMessage];
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, queryCache } from 'react-query';
 import { cancelableReq } from '../cancelableReq';
 import { apiUrl } from '../urls';
 
@@ -18,17 +18,17 @@ const getPlaceById = cancelableReq(async (_, id, config) => {
   return data;
 });
 
+const createPlaceReq = cancelableReq(async (body, config) => {
+  const { data } = await axios.post(apiUrl.PLACES, body, config);
+
+  return data;
+});
+
 const deletePlaceReq = cancelableReq(async (id, config) => {
   const { data } = await axios.delete(
     `${apiUrl.PLACES}/${id}`,
     config,
   );
-
-  return data;
-});
-
-const createPlaceReq = cancelableReq(async (body, config) => {
-  const { data } = await axios.post(apiUrl.PLACES, body, config);
 
   return data;
 });
@@ -45,12 +45,12 @@ const updatePlaceReq = cancelableReq(async ({ id, body }, config) => {
 
 export const usePlacesById = (id) => {
   const { isLoading, data, error } = useQuery(
-    ['userPlacesList', id],
+    ['userPlaces', id],
     getPlacesById,
   );
-  const errMessage = error && error.response?.data;
+  let errMessage = error?.response?.data;
 
-  return [data, isLoading, error, errMessage];
+  return [data, isLoading, errMessage];
 };
 
 export const usePlaceById = (id) => {
@@ -58,35 +58,46 @@ export const usePlaceById = (id) => {
     ['userPlace', id],
     getPlaceById,
   );
-  const errMessage = error && error.response?.data;
-  const errStatus = error && error?.response.status;
+  let errStatus = error?.response?.status;
 
-  return [data, isLoading, error, errStatus, errMessage];
-};
-
-export const useDeletePlace = () => {
-  const [mutate, { data, error, isSuccess, isLoading }] = useMutation(
-    deletePlaceReq,
-  );
-  let errMessage = error && error.response?.data;
-
-  return [mutate, data, isLoading, isSuccess, error, errMessage];
+  return [data, isLoading, errStatus];
 };
 
 export const useCreatePlace = () => {
   const [mutate, { data, error, isSuccess, isLoading }] = useMutation(
     createPlaceReq,
   );
-  let errMessage = error && error.response?.data;
+  let errMessage = error?.response?.data;
+
+  return [mutate, data, isLoading, isSuccess, error, errMessage];
+};
+
+export const useDeletePlace = (userId) => {
+  const [mutate, { data, error, isSuccess, isLoading }] = useMutation(
+    deletePlaceReq,
+    {
+      onMutate: (placeId) => {
+        queryCache.cancelQueries(['userPlaces', userId]);
+        queryCache.setQueryData(['userPlaces', userId], (prev) => {
+          return prev.places.filter((p) => p.id !== placeId);
+        });
+      },
+    },
+  );
+  let errMessage = error?.response?.data;
 
   return [mutate, data, isLoading, isSuccess, error, errMessage];
 };
 
 export const useUpdatePlace = () => {
-  const [mutate, { data, error, isLoading }] = useMutation(
+  const [mutate, { data, isLoading, isSuccess }] = useMutation(
     updatePlaceReq,
+    {
+      onSuccess: () => {
+        queryCache.invalidateQueries('userPlace');
+      },
+    },
   );
-  let errMessage = error && error.response?.data;
 
-  return [mutate, data, isLoading, error, errMessage];
+  return [mutate, data, isLoading, isSuccess];
 };

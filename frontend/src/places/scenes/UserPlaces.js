@@ -6,19 +6,19 @@ import { useToastContext } from '../../shared/hooks/toastHook';
 import PlacesList from '../components/PlacesList';
 
 const UserPlaces = () => {
-  const [places, setPlaces] = useState([]);
-  const { addToast } = useToastContext();
+  const [places, setPlaces] = useState();
   const { userId } = useParams();
-  const [data, isLoading, error, errMessage] = usePlacesById(userId);
+  const { addToast } = useToastContext();
+  const [data, isLoading, errMessage] = usePlacesById(userId);
 
   useEffect(() => {
-    if (data && !error) {
+    if (data && data.places) {
       setPlaces(data.places);
     }
-    if (error) {
-      addToast('danger', errMessage || 'Something went wrong');
+    if (errMessage) {
+      addToast('danger', errMessage);
     }
-  }, [data, error]);
+  }, [data, errMessage]);
 
   if (isLoading) {
     return (
@@ -28,14 +28,21 @@ const UserPlaces = () => {
     );
   }
 
-  const deletePlaceHandler = async (placeId) => {
+  const deletePlaceHandler = (placeId) => {
     setPlaces((prevPlaces) =>
       prevPlaces.filter((p) => p.id !== placeId),
     );
   };
 
   return (
-    <PlacesList items={places} onDeletePlace={deletePlaceHandler} />
+    <>
+      {places && (
+        <PlacesList
+          items={places}
+          onDeletePlace={deletePlaceHandler}
+        />
+      )}
+    </>
   );
 };
 

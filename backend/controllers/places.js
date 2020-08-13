@@ -41,7 +41,7 @@ const getPlacesByUserId = asyncHandler(async (req, res, next) => {
 });
 
 const createPlace = asyncHandler(async (req, res, next) => {
-  const { title, description, address, creator } = req.body;
+  const { title, description, address } = req.body;
 
   const coordinates = await getCoordsForAddress(address);
 
@@ -51,10 +51,10 @@ const createPlace = asyncHandler(async (req, res, next) => {
     image: req.file.path,
     address,
     location: coordinates,
-    creator,
+    creator: req.userData.userId,
   });
 
-  const user = await User.findById(creator);
+  const user = await User.findById(req.userData.userId);
 
   if (!user) {
     throw new HttpError('Could not find User for provided id.', 404);
@@ -88,10 +88,10 @@ const updatePlace = asyncHandler(async (req, res, next) => {
 
   const place = await Place.findById(placeId);
 
-  if (!place) {
+  if (place.creator.toString() !== req.userData.userId) {
     throw new HttpError(
-      'Could not find place for the provided id',
-      404,
+      'You are not allowed to edit this place.',
+      401,
     );
   }
 
@@ -118,6 +118,13 @@ const deletePlace = asyncHandler(async (req, res, next) => {
     );
   }
 
+  if (place.creator.id !== req.userData.userId) {
+    throw new HttpError(
+      'You are not allowed to edit this place.',
+      401,
+    );
+  }
+
   const imagePath = place.image;
 
   try {
@@ -129,7 +136,7 @@ const deletePlace = asyncHandler(async (req, res, next) => {
     place.creator.save({ session: sess });
 
     await sess.commitTransaction();
-  } catch (e) {
+  } catch (err) {
     return next(
       new HttpError(
         'Something went wrong, deleting Place failed, please try again later',

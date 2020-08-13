@@ -14,7 +14,7 @@ import { useToastContext } from '../../shared/hooks/toastHook';
 import s from './PlaceItem.module.scss';
 
 const PlaceItem = ({
-  id,
+  id: placeId,
   title,
   descr,
   image,
@@ -34,11 +34,11 @@ const PlaceItem = ({
     isSuccess,
     error,
     errMessage,
-  ] = useDeletePlace();
+  ] = useDeletePlace(userId);
 
   useEffect(() => {
     if (isSuccess) {
-      onDelete(id);
+      onDelete(placeId);
       addToast('success', data.message);
     }
     if (error) {
@@ -48,7 +48,7 @@ const PlaceItem = ({
 
   const confirmDeletePlace = async () => {
     toggleDeleteWarning();
-    await sendDeletePlace(id);
+    await sendDeletePlace(placeId);
   };
 
   return (
@@ -113,7 +113,7 @@ const PlaceItem = ({
               <>
                 <Button
                   to={generatePath(routes.EDIT_PLACE, {
-                    placeId: id,
+                    placeId,
                   })}
                 >
                   EDIT

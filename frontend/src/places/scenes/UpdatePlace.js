@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   usePlaceById,
@@ -17,21 +17,17 @@ import {
 import s from './PlaceForm.module.scss';
 
 const UpdatePlace = () => {
-  const { placeId: id } = useParams();
+  const { placeId } = useParams();
   const { addToast } = useToastContext();
-  const [loadedPlace, setLoadedPlace] = useState();
 
-  const [
-    getPlaceData,
-    getLoading,
-    getError,
-    getErrorStatus,
-  ] = usePlaceById(id);
+  const [getPlaceData, getLoading, getErrorStatus] = usePlaceById(
+    placeId,
+  );
   const [
     sendUpdatePlace,
     updPlaceData,
     updLoading,
-    updError,
+    updSuccess,
   ] = useUpdatePlace();
 
   const [formState, inputHandler] = useForm(
@@ -50,19 +46,16 @@ const UpdatePlace = () => {
   );
 
   useEffect(() => {
-    if (getPlaceData && !getError) {
-      setLoadedPlace(getPlaceData.place);
-    }
-    if (updPlaceData && !updError) {
+    if (updSuccess) {
       addToast('success', updPlaceData.message);
     }
-  }, [getPlaceData, updPlaceData, getError, updError, addToast]);
+  }, [updSuccess, updPlaceData]);
 
   const submitUpdateHandler = async (e) => {
     e.preventDefault();
 
     await sendUpdatePlace({
-      id,
+      id: placeId,
       body: {
         title: formState.inputs.title.value,
         description: formState.inputs.description.value,
@@ -90,7 +83,7 @@ const UpdatePlace = () => {
 
   return (
     <>
-      {loadedPlace && (
+      {getPlaceData?.place && (
         <form className={s.placeForm} onSubmit={submitUpdateHandler}>
           {(updLoading || getLoading) && <Spinner asOverlay />}
 
@@ -102,7 +95,7 @@ const UpdatePlace = () => {
             errorText="Please enter a valid name."
             validators={[VALIDATOR_REQUIRE()]}
             onInput={inputHandler}
-            initValue={loadedPlace.title}
+            initValue={getPlaceData.place.title}
             initValid={true}
           />
 
@@ -113,7 +106,7 @@ const UpdatePlace = () => {
             errorText="Please enter a valid description (at least 5 characters)."
             validators={[VALIDATOR_MINLENGTH(5)]}
             onInput={inputHandler}
-            initValue={loadedPlace.description}
+            initValue={getPlaceData.place.description}
             initValid={true}
           />
 

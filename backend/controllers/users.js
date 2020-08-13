@@ -70,11 +70,11 @@ const login = asyncHandler(async (req, res, next) => {
   if (!existingUser) {
     throw new HttpError(
       'Could not log you in, credentials seem to be wrong.',
-      401,
+      403,
     );
   }
 
-  const isValidPassword = bcrypt.compare(
+  const isValidPassword = await bcrypt.compare(
     password,
     existingUser.password,
   );
@@ -82,7 +82,7 @@ const login = asyncHandler(async (req, res, next) => {
   if (!isValidPassword) {
     throw new HttpError(
       'Invalid credentials, could not log you in.',
-      401,
+      403,
     );
   }
 

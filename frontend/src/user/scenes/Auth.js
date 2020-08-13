@@ -78,7 +78,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      login(data.user.id);
+      login(data.user.id, data.user.token);
       addToast('success', data.message);
     }
     if (error) {
