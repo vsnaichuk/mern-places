@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const placesRoutes = require('./routes/places');
@@ -9,7 +10,10 @@ const usersRoutes = require('./routes/users');
 const HttpError = require('./models/http-error');
 
 const app = express();
-const port = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 5000;
+
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(bodyParser.json());
 
@@ -52,8 +56,8 @@ mongoose
     },
   )
   .then(() => {
-    app.listen(port, () =>
-      console.log(`App listening on port ${port}!`),
+    app.listen(PORT, () =>
+      console.log(`App listening on port ${PORT}!`),
     );
   })
   .catch((e) => {

@@ -1,10 +1,12 @@
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ReactQueryConfigProvider } from 'react-query';
-// import { ReactQueryDevtools } from 'react-query-devtools';
 import App from './App';
-
+// import { ReactQueryDevtools } from 'react-query-devtools';
 import './index.scss';
+
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
 const queryConfig = {
   queries: {
