@@ -93,7 +93,7 @@ const PlaceItem = ({
         <Card className={s.placeContent}>
           <div className={s.placeImage}>
             <Image
-              src={`http://localhost:5000/${image}`}
+              src={`${process.env.REACT_APP_ASSET_URL}${image}`}
               alt={title}
             />
           </div>

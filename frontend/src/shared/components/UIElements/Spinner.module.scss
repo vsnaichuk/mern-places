@@ -10,6 +10,13 @@
   align-items: center;
 }
 
+.center {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
 .spinnerBox {
   position: relative;
   width: 128.571px;

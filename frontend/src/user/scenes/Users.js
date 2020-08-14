@@ -17,20 +17,14 @@ const Users = () => {
 
   if (!data?.users && !isLoading) {
     return (
-      <div className="center">
-        <Card>
-          <h2>Users not found</h2>
-        </Card>
-      </div>
+      <Card center>
+        <h2>Users not found</h2>
+      </Card>
     );
   }
 
   if (isLoading) {
-    return (
-      <div className="center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner center />;
   }
 
   return <UsersList items={data.users} />;

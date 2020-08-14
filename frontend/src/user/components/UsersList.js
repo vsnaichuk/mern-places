@@ -6,11 +6,9 @@ import s from './UsersList.module.scss';
 const UsersList = ({ items }) => {
   if (items.length === 0) {
     return (
-      <div className="center">
-        <Card>
-          <h2>No users found</h2>
-        </Card>
-      </div>
+      <Card center>
+        <h2>No users found</h2>
+      </Card>
     );
   }
 

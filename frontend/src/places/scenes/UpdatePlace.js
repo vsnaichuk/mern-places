@@ -65,20 +65,14 @@ const UpdatePlace = () => {
 
   if (getErrorStatus === 404) {
     return (
-      <div className="center">
-        <Card>
-          <h2>Could not find place!</h2>
-        </Card>
-      </div>
+      <Card center>
+        <h2>Could not find place!</h2>
+      </Card>
     );
   }
 
   if (getLoading) {
-    return (
-      <div className="center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner center />;
   }
 
   return (

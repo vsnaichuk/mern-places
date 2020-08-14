@@ -1,12 +1,17 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import NewPlace from './places/scenes/NewPlace';
-import UpdatePlace from './places/scenes/UpdatePlace';
-import UserPlaces from './places/scenes/UserPlaces';
 import PrivateRoute from './shared/components/Navigation/PrivateRoute';
 import { useAuthContext } from './shared/hooks/authHook';
-import Auth from './user/scenes/Auth';
-import Users from './user/scenes/Users';
+
+const Users = React.lazy(() => import('./user/scenes/Users'));
+const UserPlaces = React.lazy(() =>
+  import('./places/scenes/UserPlaces'),
+);
+const NewPlace = React.lazy(() => import('./places/scenes/NewPlace'));
+const UpdatePlace = React.lazy(() =>
+  import('./places/scenes/UpdatePlace'),
+);
+const Auth = React.lazy(() => import('./user/scenes/Auth'));
 
 export const routes = {
   HOME: '/',

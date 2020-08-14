@@ -23,5 +23,5 @@ $ npm run start // run it locally
 ```terminal
 $ cd backend   // go to server folder
 $ npm install       // install npm pacakges
-$ npm run start // run it locally
+$ npm run dev // run it locally
 ```

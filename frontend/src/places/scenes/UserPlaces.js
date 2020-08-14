@@ -21,11 +21,7 @@ const UserPlaces = () => {
   }, [data, errMessage]);
 
   if (isLoading) {
-    return (
-      <div className="center">
-        <Spinner />
-      </div>
-    );
+    return <Spinner center />;
   }
 
   const deletePlaceHandler = (placeId) => {

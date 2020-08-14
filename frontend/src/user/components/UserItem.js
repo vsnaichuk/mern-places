@@ -13,11 +13,10 @@ const UserItem = ({ id, name, image, placeCount }) => {
           <Avatar image={image} className={s.userImage} alt={name} />
 
           <div className={s.userInfo}>
-            <h2>Name: {name}</h2>
+            <h2>{name}</h2>
 
             <h3>
-              Place count: {placeCount}{' '}
-              {placeCount === 1 ? 'Place' : 'Places'}
+              {placeCount} {placeCount === 1 ? 'Place' : 'Places'}
             </h3>
           </div>
         </Link>
