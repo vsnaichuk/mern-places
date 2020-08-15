@@ -11,23 +11,17 @@ const HttpError = require('./models/http-error');
 
 const app = express();
 
+app.use(bodyParser.json());
+
 const PORT = process.env.PORT || 5000;
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-  );
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE',
-  );
-
-  next();
-});
-
-app.use(bodyParser.json());
+const corsOpt = {
+  origin: process.env.CORS_ALLOW_ORIGIN || '*',
+  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOpt));
+app.options('*', cors(corsOpt));
 
 app.use(
   '/uploads/images',
