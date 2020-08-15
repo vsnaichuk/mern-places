@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -23,11 +21,6 @@ const corsOpt = {
 app.use(cors(corsOpt));
 app.options('*', cors(corsOpt));
 
-app.use(
-  '/uploads/images',
-  express.static(path.join('uploads', 'images')),
-);
-
 app.use('/api/places', placesRoutes);
 
 app.use('/api/users', usersRoutes);
@@ -37,11 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  if (req.file) {
-    fs.unlink(req.file.path, (err) => {
-      console.log(err);
-    });
-  }
+  // TODO: AWS delete file if err
 
   if (res.headersSent) {
     return next(error);

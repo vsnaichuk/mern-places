@@ -92,10 +92,7 @@ const PlaceItem = ({
       <li className={s.placeItem}>
         <Card className={s.placeContent}>
           <div className={s.placeImage}>
-            <Image
-              src={`${process.env.REACT_APP_ASSET_URL}/${image}`}
-              alt={title}
-            />
+            <Image src={image} alt={title} />
           </div>
 
           <div className={s.placeInfo}>

@@ -19,6 +19,7 @@ const getUsers = asyncHandler(async (req, res, next) => {
 
 const signUp = asyncHandler(async (req, res, next) => {
   const { name, email, password } = req.body;
+  const imagePath = req.file.location;
 
   const existingUser = await User.findOne({ email: email });
 
@@ -35,7 +36,7 @@ const signUp = asyncHandler(async (req, res, next) => {
     name,
     email,
     password: hashedPassword,
-    image: req.file.path,
+    image: imagePath,
     places: [],
   });
 

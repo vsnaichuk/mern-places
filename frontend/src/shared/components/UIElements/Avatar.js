@@ -14,7 +14,7 @@ const Avatar = ({
   return (
     <div className={cx(s.avatar, className)} style={style}>
       <Image
-        src={`${process.env.REACT_APP_ASSET_URL}/${image}`}
+        src={image}
         type="user"
         alt={alt}
         style={{ width: width, height: width }}

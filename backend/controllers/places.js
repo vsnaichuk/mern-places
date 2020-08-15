@@ -1,4 +1,4 @@
-const fs = require('fs');
+const aws = require('aws-sdk');
 const mongoose = require('mongoose');
 const asyncHandler = require('../util/async-handler');
 
@@ -42,13 +42,14 @@ const getPlacesByUserId = asyncHandler(async (req, res, next) => {
 
 const createPlace = asyncHandler(async (req, res, next) => {
   const { title, description, address } = req.body;
+  const imagePath = req.file.location;
 
   const coordinates = await getCoordsForAddress(address);
 
   const createdPlace = new Place({
     title,
     description,
-    image: req.file.path,
+    image: imagePath,
     address,
     location: coordinates,
     creator: req.userData.userId,
@@ -125,7 +126,8 @@ const deletePlace = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const imagePath = place.image;
+  const path = place.image;
+  const imageId = path.substr(path.lastIndexOf('/') + 1);
 
   try {
     const sess = await mongoose.startSession();
@@ -145,8 +147,15 @@ const deletePlace = asyncHandler(async (req, res, next) => {
     );
   }
 
-  fs.unlink(imagePath, (err) => {
-    console.log(err);
+  const s3 = new aws.S3();
+  const deleteParam = {
+    Bucket: process.env.AWS_BUCKET,
+    Key: imageId,
+  };
+  s3.deleteObject(deleteParam, (err) => {
+    if (err) {
+      console.log(err, err.stack);
+    }
   });
 
   res.status(200).json({

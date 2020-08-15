@@ -8,8 +8,8 @@ import s from './PlacesList.module.scss';
 const PlacesList = ({ items, ...props }) => {
   if (!items || items.length === 0) {
     return (
-      <div className={`${s.placesList} center`}>
-        <Card>
+      <div className={s.placesList}>
+        <Card center>
           <h2 className={s.noPlace}>
             No places found. Maybe create one?
           </h2>
