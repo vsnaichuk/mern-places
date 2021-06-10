@@ -5,8 +5,8 @@
     "DB_NAME": "mern-prod",
     "GOOGLE_API_KEY": "AIzaSyCVc33rb2BeJD8NT69Ih0jZgPA1alq_-qQ",
     "JWT_KEY": "super_secret_dont_share",
-    "AWS_BUCKET": "yourplaces-file-storage",
-    "AWS_SECRET_ACCESS": "DEbjPuIrzeA1Qh0oOTTu1d9/7OllpQsq8J7xy70a",
-    "AWS_ACCESS_KEY": "AKIAIULH2VB4WRFDFBAQ"
+    "BUCKET_NAME": "yourplaces-file-storage",
+    "AWS_SECRET_ACCESS": "G1R/8B7TdR04H1a4k1u4DwAmyH/7BiA68mWNA47p",
+    "AWS_ACCESS_KEY": "AKIAJ5HOXA2TADFSDFWQ"
   }
 }

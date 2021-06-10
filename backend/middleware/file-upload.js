@@ -21,7 +21,7 @@ const fileUpload = multer({
   limits: 500000,
   storage: multerS3({
     s3,
-    bucket: process.env.AWS_BUCKET,
+    bucket: process.env.BUCKET_NAME,
     acl: 'public-read',
     metadata: (req, file, cb) => {
       cb(null, { fieldName: 'FILE_META_DATA' });

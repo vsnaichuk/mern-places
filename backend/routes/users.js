@@ -19,6 +19,6 @@ router.post(
   usersControllers.signUp,
 );
 
-router.post('/login', usersControllers.login);
+router.post('/login', usersControllers.login); //TODO add login validation
 
 module.exports = router;

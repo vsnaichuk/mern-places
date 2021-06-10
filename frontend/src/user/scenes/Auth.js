@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUserAuth } from '../../shared/api/hooks/authHook';
 import Button from '../../shared/components/FormElements/Button';
 import ImageUpload from '../../shared/components/FormElements/ImageUpload';
@@ -9,8 +9,8 @@ import { useAuthContext } from '../../shared/hooks/authHook';
 import { useForm } from '../../shared/hooks/formHook';
 import { useToastContext } from '../../shared/hooks/toastHook';
 import {
-  VALIDATOR_MINLENGTH,
   VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 
@@ -160,7 +160,7 @@ const Auth = () => {
             el="input"
             type="text"
             label="Password"
-            errorText="Please enter a valid password (at least 7 characters)."
+            errorText="Please enter a valid password (at least 5 characters)."
             validators={[VALIDATOR_MINLENGTH(5)]}
             onInput={inputHandler}
           />
